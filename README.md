@@ -1,9 +1,3 @@
-# CSE 272 Final Project Proposal: Fused PBR and NPR Rendering in Lajolla
-
-## Background and Motivation
-
-Modern games, CG films, and digital media increasingly demand rendering pipelines that go beyond pure photorealism. Titles like *The Legend of Zelda*, *Genshin Impact* and *Endfield* demonstrate the artistic and commercial value of blending physically-based rendering (PBR) with non-photorealistic rendering (NPR) techniques, where environments may be rendered with realistic lighting and materials, while characters use stylized shading such as cel-shading or hand-painted looks. There are TAs in those companies building proprietary pipelines that tightly couple PBR and NPR, allowing artists to control where realism ends and stylization begins within a single scene (e.g., hack the Unity's shader code in many mobile game deveoping). This NPR blending are less in 3A games which mainly rely on UE to render photorealistic scenes, but a fused pipeline can indeed produce unique esthetics in virtual world. 
-
 
 # lajolla
 UCSD CSE 272 renderer
