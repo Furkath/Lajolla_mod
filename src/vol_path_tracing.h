@@ -988,7 +988,12 @@ Spectrum vol_path_tracing(const Scene &scene, int x,
           Spectrum sigma_t = sigma_a + sigma_s;
           Spectrum sigma_n = majorant - sigma_t;
 
-          Spectrum real_prob = sigma_t / majorant;
+          // Spectrum real_prob = sigma_t / majorant;
+          // Safe per-channel division to avoid 0/0 = NaN when a channel's majorant is 0
+          Spectrum real_prob;
+          for (int i = 0; i < 3; i++) {
+            real_prob[i] = majorant[i] > 0 ? sigma_t[i] / majorant[i] : Real(0);
+          }
 
           if (next_pcg32_real<Real>(rng) < real_prob[channel]) {
             scatter = true;
@@ -1105,7 +1110,11 @@ Spectrum vol_path_tracing(const Scene &scene, int x,
                 Spectrum sigma_s = get_sigma_s(shadow_medium, p);
                 Spectrum sigma_t = sigma_a + sigma_s;
                 Spectrum sigma_n = majorant - sigma_t;
-                Spectrum real_prob = sigma_t / majorant;
+                //Spectrum real_prob = sigma_t / majorant;
+                Spectrum real_prob;
+                for (int i = 0; i < 3; i++) {
+                  real_prob[i] = majorant[i] > 0 ? sigma_t[i] / majorant[i] : Real(0);
+                }
 
                 T_light *= exp(-majorant * t) * sigma_n / max(majorant);
                 p_trans_nee *= exp(-majorant * t) * majorant / max(majorant);
@@ -1320,7 +1329,11 @@ Spectrum vol_path_tracing(const Scene &scene, int x,
                   Spectrum sigma_s = get_sigma_s(shadow_medium, p);
                   Spectrum sigma_t = sigma_a + sigma_s;
                   Spectrum sigma_n = majorant - sigma_t;
-                  Spectrum real_prob = sigma_t / majorant;
+                  //Spectrum real_prob = sigma_t / majorant;
+                  Spectrum real_prob;
+                  for (int i = 0; i < 3; i++) {
+                    real_prob[i] = majorant[i] > 0 ? sigma_t[i] / majorant[i] : Real(0);
+                  }
 
                   T_light *= exp(-majorant * t) * sigma_n / max(majorant);
                   p_trans_nee *= exp(-majorant * t) * majorant / max(majorant);

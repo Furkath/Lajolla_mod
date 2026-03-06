@@ -44,8 +44,15 @@ T eval_volume_op<T>::operator()(const ConstantVolume<T> &v) const {
 template <typename T>
 T eval_volume_op<T>::operator()(const GridVolume<T> &v) const {
     // Trilinear interpolation
-    Vector3 pn = (p - v.p_min) / (v.p_max - v.p_min);
-    if (pn.x < 0 || pn.x > 1 || pn.y < 0 || pn.y > 1 || pn.z < 0 || pn.z > 1) {
+    Vector3 extent = v.p_max - v.p_min;
+    // Guard against degenerate bounding boxes (division by zero -> NaN)
+    if (extent.x <= 0 || extent.y <= 0 || extent.z <= 0) {
+        return make_zero_spectrum();
+    }
+    Vector3 pn = (p - v.p_min) / extent;
+    // Use negated conjunction to correctly reject NaN values
+    // (NaN comparisons return false, so "!(x >= 0)" catches NaN while "x < 0" does not)
+    if (!(pn.x >= 0 && pn.x <= 1 && pn.y >= 0 && pn.y <= 1 && pn.z >= 0 && pn.z <= 1)) {
         return make_zero_spectrum();
     }
     pn.x *= Real(v.resolution.x - 1);

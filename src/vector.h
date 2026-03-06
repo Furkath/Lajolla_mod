@@ -6,7 +6,7 @@
 
 template <typename T>
 struct TVector2 {
-    TVector2() {}
+    TVector2() : x(T(0)), y(T(0)) {}
 
     template <typename T2>
     TVector2(T2 x, T2 y) : x(T(x)), y(T(y)) {}
@@ -27,7 +27,7 @@ struct TVector2 {
 
 template <typename T>
 struct TVector3 {
-    TVector3() {}
+    TVector3() : x(T(0)), y(T(0)), z(T(0)) {}
 
     template <typename T2>
     TVector3(T2 x, T2 y, T2 z) : x(T(x)), y(T(y)), z(T(z)) {}
@@ -48,7 +48,7 @@ struct TVector3 {
 
 template <typename T>
 struct TVector4 {
-    TVector4() {}
+    TVector4() : x(T(0)), y(T(0)), z(T(0)), w(T(0)) {}
 
     template <typename T2>
     TVector4(T2 x, T2 y, T2 z, T2 w) : x(T(x)), y(T(y)), z(T(z)), w(T(w)) {}
@@ -283,12 +283,12 @@ inline bool isnan(const TVector3<T> &v) {
 
 template <typename T>
 inline bool isfinite(const TVector2<T> &v) {
-    return isfinite(v[0]) || isfinite(v[1]);
+    return isfinite(v[0]) && isfinite(v[1]);
 }
 
 template <typename T>
 inline bool isfinite(const TVector3<T> &v) {
-    return isfinite(v[0]) || isfinite(v[1]) || isfinite(v[2]);
+    return isfinite(v[0]) && isfinite(v[1]) && isfinite(v[2]);
 }
 
 template <typename T>
