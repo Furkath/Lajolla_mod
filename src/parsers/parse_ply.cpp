@@ -20,7 +20,12 @@ TriangleMesh parse_ply(const fs::path &filename, const Matrix4x4 &to_world) {
     try {
         uvs = ply_file.request_properties_from_element("vertex", { "u", "v" });
     } catch (const std::exception & e) {
-        // It's fine to not have UVs    
+        // Try Blender's default UV property names
+        try {
+            uvs = ply_file.request_properties_from_element("vertex", { "s", "t" });
+        } catch (const std::exception & e) {
+            // It's fine to not have UVs
+        }
     }
     try {
         normals = ply_file.request_properties_from_element("vertex", { "nx", "ny", "nz" });

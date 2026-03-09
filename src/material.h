@@ -88,6 +88,28 @@ struct DisneySheen {
     Texture<Real> sheen_tint;
 };
 
+/// Straight-through transparent BSDF (internal use by NprBSDF).
+/// Not registered in Material variant — used only as a sub-lobe.
+struct TransparentBSDF {};
+
+/// NPR BSDF: simplified Disney with only diffuse + metal + transparent lobes.
+/// Blending: ((1-Fac)*diffuse + Fac*metal) * Fac2 + (1-Fac2) * transparent
+struct NprBSDF {
+    Texture<Spectrum> diffuse_color;
+    Texture<Spectrum> metallic_color;
+    Texture<Real> Fac;   // blend factor: 0 = fully diffuse, 1 = fully metal
+    Texture<Real> Fac2;  // opacity: 1 = fully opaque, 0 = fully transparent (from alpha)
+    Texture<Real> metallic;  // metallic parameter for TintMetal Fresnel (separate from Fac)
+    Texture<Real> diffuse_roughness;
+    Texture<Real> metallic_roughness;
+    Texture<Real> subsurface;
+    Texture<Real> specular;
+    Texture<Real> specular_tint;
+    Texture<Real> anisotropic;
+
+    Real eta;
+};
+
 /// For homework 1: the whole Disney BRDF.
 struct DisneyBSDF {
     Texture<Spectrum> base_color;
@@ -117,7 +139,8 @@ using Material = std::variant<Lambertian,
                               DisneyGlass,
                               DisneyClearcoat,
                               DisneySheen,
-                              DisneyBSDF>;
+                              DisneyBSDF,
+                              NprBSDF>;
 
 /// We allow non-reciprocal BRDFs, so it's important
 /// to distinguish which direction we are tracing the rays.

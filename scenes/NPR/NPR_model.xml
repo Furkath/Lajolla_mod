@@ -1,0 +1,44 @@
+<scene version="2.1.0">
+
+<!-- Defaults, these can be set via the command line: -Darg=value -->
+
+
+<!-- Camera and Rendering Parameters -->
+
+	<integrator type="path" id="elm__0" name="elm__0">
+		<integer name="max_depth" value="12"/>
+	</integrator>
+
+<!-- Materials -->
+
+	<bsdf type="blendbsdf" id="mat-颜" name="mat-颜">
+		<float name="weight" value="0.020000"/>
+		<bsdf type="twosided" name="bsdf1">
+			<bsdf type="diffuse" name="bsdf">
+				<texture type="bitmap" name="reflectance">
+					<string name="filename" value="textures/颜.png"/>
+				</texture>
+			</bsdf>
+		</bsdf>
+		<bsdf type="twosided" name="bsdf2">
+			<bsdf type="roughconductor" name="bsdf">
+				<float name="alpha" value="1.000000"/>
+				<string name="distribution" value="ggx"/>
+				<rgb value="0.000000 0.000000 0.000000" name="specular_reflectance"/>
+			</bsdf>
+		</bsdf>
+	</bsdf>
+
+<!-- Emitters -->
+
+
+<!-- Shapes -->
+
+	<shape type="ply" id="elm__2" name="elm__2">
+		<string name="filename" value="meshes/000_颜_001.ply"/>
+		<ref id="mat-颜" name="bsdf"/>
+	</shape>
+
+<!-- Volumes -->
+
+</scene>

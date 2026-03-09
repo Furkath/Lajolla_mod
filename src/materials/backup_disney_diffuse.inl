@@ -1,6 +1,7 @@
 Spectrum eval_op::operator()(const DisneyDiffuse &bsdf) const {
-    if (dot(vertex.geometric_normal, dir_in) <= 0) {
-        // No light below the surface (backface)
+    if (dot(vertex.geometric_normal, dir_in) <= 0 ||
+            dot(vertex.geometric_normal, dir_out) <= 0) {
+        // No light below the surface
         return make_zero_spectrum();
     }
     // Flip the shading frame if it is inconsistent with the geometry normal
@@ -8,23 +9,19 @@ Spectrum eval_op::operator()(const DisneyDiffuse &bsdf) const {
     if (dot(frame.n, dir_in) < 0) {
         frame = -frame;
     }
-    // Use shading normal for dir_out check — allows smooth shadow terminator.
-    if (dot(frame.n, dir_out) <= 0) {
-        return make_zero_spectrum();
-    }
 
     // Homework 1: implement this!
     Spectrum base_color = eval(bsdf.base_color, vertex.uv, vertex.uv_screen_size, texture_pool);
     Real roughness = eval(bsdf.roughness, vertex.uv, vertex.uv_screen_size, texture_pool);
     Real subsurface = eval(bsdf.subsurface, vertex.uv, vertex.uv_screen_size, texture_pool);
 
-    Vector3 h = normalize(dir_in + dir_out);
+    Vector3 h = normalize(dir_in + dir_out); 
     Real cos_theta_d = dot(h, dir_out);
     Real cos_theta_in = fabs(dot(frame.n,dir_in));//fmax(dot(frame.n, dir_in), Real(0));
     Real cos_theta_out =fabs(dot(frame.n,dir_out));//fmax(dot(frame.n, dir_out), Real(0));
 
     Real F_D90 = 0.5 + 2.0 * roughness * cos_theta_d * cos_theta_d;
-
+    
     Real F_in_diff = 1.0 + (F_D90 - 1.0) * pow(1.0 - cos_theta_in, 5);
     Real F_out_diff = 1.0 + (F_D90 - 1.0) * pow(1.0 - cos_theta_out, 5);
 
@@ -46,7 +43,9 @@ Spectrum eval_op::operator()(const DisneyDiffuse &bsdf) const {
 }
 
 Real pdf_sample_bsdf_op::operator()(const DisneyDiffuse &bsdf) const {
-    if (dot(vertex.geometric_normal, dir_in) < 0) {
+    if (dot(vertex.geometric_normal, dir_in) < 0 ||
+            dot(vertex.geometric_normal, dir_out) < 0) {
+        // No light below the surface
         return 0;
     }
     // Flip the shading frame if it is inconsistent with the geometry normal
@@ -54,11 +53,7 @@ Real pdf_sample_bsdf_op::operator()(const DisneyDiffuse &bsdf) const {
     if (dot(frame.n, dir_in) < 0) {
         frame = -frame;
     }
-    // Use shading normal for dir_out — matches eval_op
-    if (dot(frame.n, dir_out) <= 0) {
-        return 0;
-    }
-
+    
     // Homework 1: implement this!
     return fmax(dot(frame.n, dir_out), Real(0)) / c_PI;
     //return Real(0);
@@ -74,7 +69,7 @@ std::optional<BSDFSampleRecord> sample_bsdf_op::operator()(const DisneyDiffuse &
     if (dot(frame.n, dir_in) < 0) {
         frame = -frame;
     }
-
+    
     // Homework 1: implement this!
     Real roughness = eval(bsdf.roughness, vertex.uv, vertex.uv_screen_size, texture_pool);
     return BSDFSampleRecord{
@@ -86,4 +81,3 @@ std::optional<BSDFSampleRecord> sample_bsdf_op::operator()(const DisneyDiffuse &
 TextureSpectrum get_texture_op::operator()(const DisneyDiffuse &bsdf) const {
     return bsdf.base_color;
 }
-

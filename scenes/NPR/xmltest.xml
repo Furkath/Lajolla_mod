@@ -1,0 +1,77 @@
+<scene version="2.1.0">
+
+<!-- Defaults, these can be set via the command line: -Darg=value -->
+
+	<default name="spp" value="4096"/>
+	<default name="resx" value="1080"/>
+	<default name="resy" value="1080"/>
+
+<!-- Camera and Rendering Parameters -->
+
+	<integrator type="path" id="elm__0" name="elm__0">
+		<integer name="max_depth" value="12"/>
+	</integrator>
+	<sensor type="perspective" id="elm__2" name="elm__2">
+		<string name="fov_axis" value="x"/>
+		<float name="fov" value="39.597755"/>
+		<float name="principal_point_offset_x" value="0.000000"/>
+		<float name="principal_point_offset_y" value="-0.000000"/>
+		<float name="near_clip" value="0.100000"/>
+		<float name="far_clip" value="100.000000"/>
+		<transform name="to_world">
+			<rotate x="1" angle="177.64083034887724"/>
+			<rotate y="1" angle="-0.025279655698707854"/>
+			<rotate z="1" angle="179.99997768819966"/>
+			<translate value="0.000139 1.416879 0.394688"/>
+		</transform>
+		<sampler type="independent" name="sampler">
+			<integer name="sample_count" value="$spp"/>
+		</sampler>
+		<film type="hdrfilm" name="film">
+			<integer name="width" value="$resx"/>
+			<integer name="height" value="$resy"/>
+		</film>
+	</sensor>
+
+<!-- Materials -->
+
+	<bsdf type="disneydiffuse" id="mat-face" name="mat-face">
+		<texture type="bitmap" name="baseColor">
+			<string name="filename" value="textures/face.png"/>
+		</texture>
+		<float name="roughness" value="0.0"/>
+                <float name="subsurface" value="0.0"/>
+	</bsdf>
+
+<!-- Emitters -->
+	<!--
+	<emitter type="point" id="elm__1" name="elm__1">
+		<point name="position" x="4.076250076293945" y="2.903860092163086" z="2.0054500102996826"/>
+		<rgb value="79.577469 79.577469 79.577469" name="intensity"/>
+		<float name="scale" value="0.1"/>
+	</emitter>
+	<emitter type="point" id="elm__5" name="elm__5">
+		<point name="position" x="-4.076250076293945" y="2.903860092163086" z="2.0054500102996826"/>
+		<rgb value="79.577469 79.577469 79.577469" name="intensity"/>
+		<float name="scale" value="0.1"/>
+	</emitter>
+	-->
+	<emitter type="point" id="elm__6" name="elm__6">
+		<point name="position" x="0.0" y="2.903860092163086" z="5.0054500102996826"/>
+		<rgb value="79.577469 79.577469 79.577469" name="intensity"/>
+		<float name="scale" value="0.01"/>
+	</emitter>
+	<emitter type="constant">
+    		<rgb name="radiance" value="0.2 0.2 0.2"/>
+	</emitter>
+
+<!-- Shapes -->
+
+	<shape type="ply" id="elm__4" name="elm__4">
+		<string name="filename" value="meshes/000_face_001.ply"/>
+		<ref id="mat-face" name="bsdf"/>
+	</shape>
+
+<!-- Volumes -->
+
+</scene>

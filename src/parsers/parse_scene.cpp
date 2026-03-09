@@ -1163,6 +1163,130 @@ std::tuple<std::string /* ID */, Material> parse_bsdf(
                                               clearcoat,
                                               clearcoat_gloss,
                                               eta});
+    } else if (type == "nprbsdf" || type == "npr") {
+        Texture<Spectrum> diffuse_color = make_constant_spectrum_texture(fromRGB(Vector3{0.5, 0.5, 0.5}));
+        Texture<Spectrum> metallic_color = make_constant_spectrum_texture(fromRGB(Vector3{0.5, 0.5, 0.5}));
+        Texture<Real> fac = make_constant_float_texture(Real(0));
+        Texture<Real> fac2 = make_constant_float_texture(Real(1)); // opacity: 1 = opaque
+        Texture<Real> metallic = make_constant_float_texture(Real(1.0));
+        Texture<Real> diffuse_roughness = make_constant_float_texture(Real(0.5));
+        Texture<Real> metallic_roughness = make_constant_float_texture(Real(0.5));
+        Texture<Real> subsurface = make_constant_float_texture(Real(0));
+        Texture<Real> specular = make_constant_float_texture(Real(0.5));
+        Texture<Real> specular_tint = make_constant_float_texture(Real(0));
+        Texture<Real> anisotropic = make_constant_float_texture(Real(0));
+        Real eta = Real(1.5);
+        bool fac2_explicitly_set = false;
+        // Track diffuse color bitmap filename for automatic alpha extraction
+        fs::path diffuse_color_filename;
+        Real diffuse_uv_scale_u = 1, diffuse_uv_scale_v = 1;
+        Real diffuse_uv_offset_u = 0, diffuse_uv_offset_v = 0;
+        for (auto child : node.children()) {
+            std::string name = child.attribute("name").value();
+            if (name == "baseColor" || name == "base_color") {
+                // shorthand: sets both colors
+                diffuse_color = parse_spectrum_texture(
+                    child, texture_map, texture_pool, default_map);
+                metallic_color = diffuse_color;
+                // Extract filename for alpha loading
+                std::string child_type = child.name();
+                if (child_type == "ref") {
+                    std::string ref_id = child.attribute("id").value();
+                    auto t_it = texture_map.find(ref_id);
+                    if (t_it != texture_map.end() && t_it->second.type == TextureType::BITMAP) {
+                        diffuse_color_filename = t_it->second.filename;
+                        diffuse_uv_scale_u = t_it->second.uscale;
+                        diffuse_uv_scale_v = t_it->second.vscale;
+                        diffuse_uv_offset_u = t_it->second.uoffset;
+                        diffuse_uv_offset_v = t_it->second.voffset;
+                    }
+                } else if (child_type == "texture") {
+                    ParsedTexture t = parse_texture(child, default_map);
+                    if (t.type == TextureType::BITMAP) {
+                        diffuse_color_filename = t.filename;
+                        diffuse_uv_scale_u = t.uscale;
+                        diffuse_uv_scale_v = t.vscale;
+                        diffuse_uv_offset_u = t.uoffset;
+                        diffuse_uv_offset_v = t.voffset;
+                    }
+                }
+            } else if (name == "diffuse_color" || name == "diffuseColor") {
+                diffuse_color = parse_spectrum_texture(
+                    child, texture_map, texture_pool, default_map);
+                // Extract filename for alpha loading
+                std::string child_type = child.name();
+                if (child_type == "ref") {
+                    std::string ref_id = child.attribute("id").value();
+                    auto t_it = texture_map.find(ref_id);
+                    if (t_it != texture_map.end() && t_it->second.type == TextureType::BITMAP) {
+                        diffuse_color_filename = t_it->second.filename;
+                        diffuse_uv_scale_u = t_it->second.uscale;
+                        diffuse_uv_scale_v = t_it->second.vscale;
+                        diffuse_uv_offset_u = t_it->second.uoffset;
+                        diffuse_uv_offset_v = t_it->second.voffset;
+                    }
+                } else if (child_type == "texture") {
+                    ParsedTexture t = parse_texture(child, default_map);
+                    if (t.type == TextureType::BITMAP) {
+                        diffuse_color_filename = t.filename;
+                        diffuse_uv_scale_u = t.uscale;
+                        diffuse_uv_scale_v = t.vscale;
+                        diffuse_uv_offset_u = t.uoffset;
+                        diffuse_uv_offset_v = t.voffset;
+                    }
+                }
+            } else if (name == "metallic_color" || name == "metallicColor") {
+                metallic_color = parse_spectrum_texture(
+                    child, texture_map, texture_pool, default_map);
+            } else if (name == "Fac" || name == "fac") {
+                fac = parse_float_texture(
+                    child, texture_map, texture_pool, default_map);
+            } else if (name == "Fac2" || name == "fac2") {
+                fac2 = parse_float_texture(
+                    child, texture_map, texture_pool, default_map);
+                fac2_explicitly_set = true;
+            } else if (name == "metallic") {
+                metallic = parse_float_texture(
+                    child, texture_map, texture_pool, default_map);
+            } else if (name == "diffuse_roughness" || name == "diffuseRoughness") {
+                diffuse_roughness = parse_float_texture(
+                    child, texture_map, texture_pool, default_map);
+            } else if (name == "metallic_roughness" || name == "metallicRoughness") {
+                metallic_roughness = parse_float_texture(
+                    child, texture_map, texture_pool, default_map);
+            } else if (name == "roughness") {
+                // shorthand: sets both roughness values
+                diffuse_roughness = parse_float_texture(
+                    child, texture_map, texture_pool, default_map);
+                metallic_roughness = diffuse_roughness;
+            } else if (name == "subsurface") {
+                subsurface = parse_float_texture(
+                    child, texture_map, texture_pool, default_map);
+            } else if (name == "specular") {
+                specular = parse_float_texture(
+                    child, texture_map, texture_pool, default_map);
+            } else if (name == "specularTint" || name == "specular_tint") {
+                specular_tint = parse_float_texture(
+                    child, texture_map, texture_pool, default_map);
+            } else if (name == "anisotropic") {
+                anisotropic = parse_float_texture(
+                    child, texture_map, texture_pool, default_map);
+            } else if (name == "eta") {
+                eta = parse_float(child.attribute("value").value(), default_map);
+            }
+        }
+        // Auto-load alpha channel from diffuse color texture as Fac2 (if not explicitly set)
+        if (!fac2_explicitly_set && !diffuse_color_filename.empty()) {
+            Image1 alpha_img = imread_alpha(diffuse_color_filename);
+            fac2 = make_image_float_texture(
+                "$npr_alpha_" + diffuse_color_filename.string(),
+                alpha_img, texture_pool,
+                diffuse_uv_scale_u, diffuse_uv_scale_v,
+                diffuse_uv_offset_u, diffuse_uv_offset_v);
+        }
+        return std::make_tuple(id, NprBSDF{diffuse_color, metallic_color, fac, fac2, metallic,
+                                           diffuse_roughness, metallic_roughness,
+                                           subsurface, specular, specular_tint, anisotropic, eta});
     } else if (type == "null") {
         // TODO: implement actual null BSDF (the ray will need to pass through the shape)
         return std::make_tuple(id, Lambertian{
@@ -1493,10 +1617,29 @@ std::unique_ptr<Scene> parse_scene(pugi::xml_node node, const RTCDevice &embree_
                 } else {
                     Error("Filename unspecified for envmap.");
                 }
+            } else if (type == "constant") {
+                // Constant ambient light: uniform radiance from all directions.
+                Spectrum radiance = make_const_spectrum(1);
+                Real scale = 1;
+                for (auto grand_child : child.children()) {
+                    std::string name = grand_child.attribute("name").value();
+                    if (name == "radiance") {
+                        radiance = parse_intensity(grand_child, default_map);
+                    } else if (name == "scale") {
+                        scale = parse_float(
+                            grand_child.attribute("value").value(), default_map);
+                    }
+                }
+                Texture<Spectrum> t = make_constant_spectrum_texture(radiance);
+                Matrix4x4 to_world = Matrix4x4::identity();
+                Matrix4x4 to_local = inverse(to_world);
+                lights.push_back(Envmap{t, to_world, to_local, scale});
+                envmap_light_id = (int)lights.size() - 1;
             } else if (type == "point") {
                 std::cout << "[Warning] converting a point light into a small spherical light." << std::endl;
                 Vector3 position = Vector3{0, 0, 0};
                 Spectrum intensity = make_const_spectrum(1);
+                Real scale = 1;
                 for (auto grand_child : child.children()) {
                     std::string name = grand_child.attribute("name").value();
                     if (name == "position") {
@@ -1511,8 +1654,11 @@ std::unique_ptr<Scene> parse_scene(pugi::xml_node node, const RTCDevice &embree_
                         }
                     } else if (name == "intensity") {
                         intensity = parse_intensity(grand_child, default_map);
+                    } else if (name == "scale") {
+                        scale = parse_float(grand_child.attribute("value").value(), default_map);
                     }
                 }
+                intensity *= scale;
                 Shape s = Sphere{{}, position, Real(1e-4)};
                 intensity *= (c_FOURPI / surface_area(s));
                 Material m = Lambertian{

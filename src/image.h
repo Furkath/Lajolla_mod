@@ -52,6 +52,11 @@ Image1 imread1(const fs::path &filename);
 /// Supported formats: JPG, PNG, TGA, BMP, PSD, GIF, HDR, PIC
 Image3 imread3(const fs::path &filename);
 
+/// Read the alpha channel from an image file.
+/// If the image has < 4 channels, returns an image filled with 1.0.
+/// Supported formats: JPG, PNG, TGA, BMP, PSD, GIF, HDR, PIC, EXR
+Image1 imread_alpha(const fs::path &filename);
+
 /// Save an image to a file.
 /// Supported formats: PFM & exr
 void imwrite(const fs::path &filename, const Image3 &image);

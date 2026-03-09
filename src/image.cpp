@@ -77,6 +77,64 @@ Image1 imread1(const fs::path &filename) {
     return img;
 }
 
+Image1 imread_alpha(const fs::path &filename) {
+    Image1 img;
+    std::string extension = to_lowercase(filename.extension().string());
+    if (extension == ".jpg" ||
+          extension == ".png" ||
+          extension == ".tga" ||
+          extension == ".bmp" ||
+          extension == ".psd" ||
+          extension == ".gif" ||
+          extension == ".hdr" ||
+          extension == ".pic") {
+        int w, h, n;
+        // Load with actual channel count (desired_channels=0)
+#ifdef _WINDOWS
+        float* data = stbi_loadf(filename.string().c_str(), &w, &h, &n, 0);
+#else
+        float *data = stbi_loadf(filename.c_str(), &w, &h, &n, 0);
+#endif
+        img = Image1(w, h);
+        if (data == nullptr) {
+            Error(std::string("Failure when loading image: ") + filename.string());
+        }
+        if (n >= 4) {
+            for (int i = 0; i < w * h; i++) {
+                img(i) = data[i * n + 3];
+            }
+        } else {
+            for (int i = 0; i < w * h; i++) {
+                img(i) = Real(1);
+            }
+        }
+        stbi_image_free(data);
+    } else if (extension == ".exr") {
+        float* data = nullptr;
+        int width, height;
+        const char* err = nullptr;
+#ifdef _WINDOWS
+        int ret = LoadEXR(&data, &width, &height, filename.string().c_str(), &err);
+#else
+        int ret = LoadEXR(&data, &width, &height, filename.c_str(), &err);
+#endif
+        if (ret != TINYEXR_SUCCESS) {
+            std::cerr << "OpenEXR error: " << err << std::endl;
+            FreeEXRErrorMessage(err);
+            Error(std::string("Failure when loading image: ") + filename.string());
+        }
+        img = Image1(width, height);
+        // tinyexr always loads 4 channels (RGBA)
+        for (int i = 0; i < width * height; i++) {
+            img(i) = data[4 * i + 3];
+        }
+        free(data);
+    } else {
+        Error(std::string("Unsupported image format: ") + filename.string());
+    }
+    return img;
+}
+
 Image3 imread3(const fs::path &filename) {
     Image3 img;
     std::string extension = to_lowercase(filename.extension().string());

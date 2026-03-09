@@ -5,8 +5,7 @@
 
 /// Compute an offset shadow ray origin on the "virtual smooth surface"
 /// to fix shadow terminator artifacts on smooth-shaded triangle meshes.
-/// Uses Blender's quadratic surface approximation: squared barycentric weights
-/// make the offset fall off faster in triangle interiors than Hanika's linear version.
+/// Based on Hanika, "Hacking the Shadow Terminator" (Ray Tracing Gems II, 2021).
 inline Vector3 compute_shadow_origin(const PathVertex &vertex,
                                      const Scene &scene) {
     const Shape &shape = scene.shapes[vertex.shape_id];
@@ -29,14 +28,13 @@ inline Vector3 compute_shadow_origin(const PathVertex &vertex,
 
     Vector3 P = vertex.position;
 
-    // Compute heights of P above each vertex's tangent plane
-    Real h0 = dot(P - v0, n0);
-    Real h1 = dot(P - v1, n1);
-    Real h2 = dot(P - v2, n2);
+    // Project P onto the tangent plane at each vertex
+    Vector3 p0 = P - n0 * dot(P - v0, n0);
+    Vector3 p1 = P - n1 * dot(P - v1, n1);
+    Vector3 p2 = P - n2 * dot(P - v2, n2);
 
-    // Quadratic approximation: squared barycentric weights
-    Vector3 offset = n0 * (b0 * b0 * h0) + n1 * (b1 * b1 * h1) + n2 * (b2 * b2 * h2);
-    Vector3 P_offset = P - offset;
+    // Barycentric interpolation of projected points
+    Vector3 P_offset = b0 * p0 + b1 * p1 + b2 * p2;
 
     // Convexity check: only offset on convex regions to avoid light leaks
     if (dot(P_offset - P, vertex.shading_frame.n) > 0) {

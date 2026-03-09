@@ -86,4 +86,3 @@ std::optional<BSDFSampleRecord> sample_bsdf_op::operator()(const DisneyDiffuse &
 TextureSpectrum get_texture_op::operator()(const DisneyDiffuse &bsdf) const {
     return bsdf.base_color;
 }
-

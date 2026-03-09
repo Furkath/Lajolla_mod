@@ -21,6 +21,8 @@ struct eval_op {
     Spectrum operator()(const DisneyClearcoat &bsdf) const;
     Spectrum operator()(const DisneySheen &bsdf) const;
     Spectrum operator()(const DisneyBSDF &bsdf) const;
+    Spectrum operator()(const NprBSDF &bsdf) const;
+    Spectrum operator()(const TransparentBSDF &bsdf) const;
 
     const Vector3 &dir_in;
     const Vector3 &dir_out;
@@ -40,6 +42,8 @@ struct pdf_sample_bsdf_op {
     Real operator()(const DisneyClearcoat &bsdf) const;
     Real operator()(const DisneySheen &bsdf) const;
     Real operator()(const DisneyBSDF &bsdf) const;
+    Real operator()(const NprBSDF &bsdf) const;
+    Real operator()(const TransparentBSDF &bsdf) const;
 
     const Vector3 &dir_in;
     const Vector3 &dir_out;
@@ -59,6 +63,8 @@ struct sample_bsdf_op {
     std::optional<BSDFSampleRecord> operator()(const DisneyClearcoat &bsdf) const;
     std::optional<BSDFSampleRecord> operator()(const DisneySheen &bsdf) const;
     std::optional<BSDFSampleRecord> operator()(const DisneyBSDF &bsdf) const;
+    std::optional<BSDFSampleRecord> operator()(const NprBSDF &bsdf) const;
+    std::optional<BSDFSampleRecord> operator()(const TransparentBSDF &bsdf) const;
 
     const Vector3 &dir_in;
     const PathVertex &vertex;
@@ -79,6 +85,8 @@ struct get_texture_op {
     TextureSpectrum operator()(const DisneyClearcoat &bsdf) const;
     TextureSpectrum operator()(const DisneySheen &bsdf) const;
     TextureSpectrum operator()(const DisneyBSDF &bsdf) const;
+    TextureSpectrum operator()(const NprBSDF &bsdf) const;
+    TextureSpectrum operator()(const TransparentBSDF &bsdf) const;
 };
 
 #include "materials/lambertian.inl"
@@ -91,6 +99,8 @@ struct get_texture_op {
 #include "materials/disney_clearcoat.inl"
 #include "materials/disney_sheen.inl"
 #include "materials/disney_bsdf.inl"
+#include "materials/transparent_bsdf.inl"
+#include "materials/npr_bsdf.inl"
 
 Spectrum eval(const Material &material,
               const Vector3 &dir_in,

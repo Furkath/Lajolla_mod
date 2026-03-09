@@ -94,5 +94,19 @@ void init_sampling_dist_op::operator()(Envmap &light) const {
             }
         }
         light.sampling_dist = make_table_dist_2d(f, w, h);
+    } else if (auto *t = std::get_if<ConstantTexture<Spectrum>>(&light.values)) {
+        // For a constant envmap (ambient light), build a uniform spherical distribution.
+        int w = 16, h = 8;
+        Real lum = luminance(t->value);
+        std::vector<Real> f(w * h);
+        int i = 0;
+        for (int y = 0; y < h; y++) {
+            Real v = (y + Real(0.5)) / Real(h);
+            Real sin_elevation = sin(c_PI * v);
+            for (int x = 0; x < w; x++) {
+                f[i++] = lum * sin_elevation;
+            }
+        }
+        light.sampling_dist = make_table_dist_2d(f, w, h);
     }
 }
