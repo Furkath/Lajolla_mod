@@ -22,6 +22,7 @@ struct eval_op {
     Spectrum operator()(const DisneySheen &bsdf) const;
     Spectrum operator()(const DisneyBSDF &bsdf) const;
     Spectrum operator()(const NprBSDF &bsdf) const;
+    Spectrum operator()(const NprDiffuse &bsdf) const;
     Spectrum operator()(const TransparentBSDF &bsdf) const;
 
     const Vector3 &dir_in;
@@ -43,6 +44,7 @@ struct pdf_sample_bsdf_op {
     Real operator()(const DisneySheen &bsdf) const;
     Real operator()(const DisneyBSDF &bsdf) const;
     Real operator()(const NprBSDF &bsdf) const;
+    Real operator()(const NprDiffuse &bsdf) const;
     Real operator()(const TransparentBSDF &bsdf) const;
 
     const Vector3 &dir_in;
@@ -64,6 +66,7 @@ struct sample_bsdf_op {
     std::optional<BSDFSampleRecord> operator()(const DisneySheen &bsdf) const;
     std::optional<BSDFSampleRecord> operator()(const DisneyBSDF &bsdf) const;
     std::optional<BSDFSampleRecord> operator()(const NprBSDF &bsdf) const;
+    std::optional<BSDFSampleRecord> operator()(const NprDiffuse &bsdf) const;
     std::optional<BSDFSampleRecord> operator()(const TransparentBSDF &bsdf) const;
 
     const Vector3 &dir_in;
@@ -86,6 +89,7 @@ struct get_texture_op {
     TextureSpectrum operator()(const DisneySheen &bsdf) const;
     TextureSpectrum operator()(const DisneyBSDF &bsdf) const;
     TextureSpectrum operator()(const NprBSDF &bsdf) const;
+    TextureSpectrum operator()(const NprDiffuse &bsdf) const;
     TextureSpectrum operator()(const TransparentBSDF &bsdf) const;
 };
 
@@ -100,6 +104,7 @@ struct get_texture_op {
 #include "materials/disney_sheen.inl"
 #include "materials/disney_bsdf.inl"
 #include "materials/transparent_bsdf.inl"
+#include "materials/npr_diffuse.inl"
 #include "materials/npr_bsdf.inl"
 
 Spectrum eval(const Material &material,

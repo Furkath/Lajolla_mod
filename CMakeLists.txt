@@ -44,6 +44,7 @@ set(SRCS src/3rdparty/miniz.h
          src/materials/disney_sheen.inl
          src/materials/disney_bsdf.inl
          src/materials/transparent_bsdf.inl
+         src/materials/npr_diffuse.inl
          src/materials/npr_bsdf.inl
          src/media/homogeneous.inl
          src/media/heterogeneous.inl

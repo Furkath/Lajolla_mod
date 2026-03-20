@@ -1,0 +1,661 @@
+<scene version="2.1.0">
+	<default name="spp" value="128" />
+	<default name="resx" value="3840" />
+	<default name="resy" value="2160" />
+	<integrator type="direct" id="elm__0" name="elm__0">
+		<integer name="max_depth" value="24" />
+	</integrator>
+	<sensor type="perspective" id="elm__1" name="elm__1">
+		<string name="fov_axis" value="x" />
+		<float name="fov" value="39.597755" />
+		<float name="principal_point_offset_x" value="0.000000" />
+		<float name="principal_point_offset_y" value="-0.000000" />
+		<float name="near_clip" value="0.100000" />
+		<float name="far_clip" value="100.000000" />
+		<transform name="to_world">
+			<rotate x="1" angle="179.64050483218188" />
+			<rotate y="1" angle="0.10807655784666456" />
+			<rotate z="1" angle="179.99997768819966" />
+			<translate value="-0.132544 1.201788 8.428987" />
+		</transform>
+		<sampler type="independent" name="sampler">
+			<integer name="sample_count" value="$spp" />
+		</sampler>
+		<film type="hdrfilm" name="film">
+			<integer name="width" value="$resx" />
+			<integer name="height" value="$resy" />
+		</film>
+	</sensor>
+	<bsdf type="disneybsdf" name="mat-Wood06.001" id="mat-Wood06.001">
+		<texture type="bitmap" name="base_color">
+			<string name="filename" value="textures/Image0100.005.png" />
+		</texture>
+		<float value="0.604055" name="specular_tint" />
+		<float name="specular_transmission" value="0.000000" />
+		<float name="metallic" value="0.4000000" />
+		<float name="anisotropic" value="0.01000000" />
+		<float name="roughness" value="0.25062500" />
+		<float name="sheen" value="0.000000" />
+		<float value="1.000000" name="sheen_tint" />
+		<float name="clearcoat" value="0.016000000" />
+		<float name="clearcoat_gloss" value="0.000900" />
+		<float name="specular" value="0.750000" />
+		<float name="eta" value="1.450000" />
+	</bsdf>
+	<bsdf type="disneybsdf" name="mat-WoodFloor14.001" id="mat-WoodFloor14.001">
+		<texture type="bitmap" name="base_color">
+			<string name="filename" value="textures/Image0100.002.png" />
+			<float name="uscale" value="2.0"/>
+    		<float name="vscale" value="2.0"/>
+		</texture>
+		<float value="1.000000" name="specular_tint" />
+		<float name="specular_transmission" value="0.000000" />
+		<float name="metallic" value="0.384000000" />
+		<float name="anisotropic" value="0.000000" />
+		<float name="roughness" value="0.25022500" />
+		<float name="sheen" value="0.0000000" />
+		<float value="1.000000" name="sheen_tint" />
+		<float name="clearcoat" value="0.00260000000" />
+		<float name="clearcoat_gloss" value="0.0000900" />
+		<float name="specular" value="0.4900000" />
+		<float name="eta" value="1.450000" />
+	</bsdf>
+
+
+
+
+
+	<bsdf type="disneydiffuse" name="mat-Cobblestone_01" id="mat-Cobblestone_01">
+		<texture type="bitmap" name="baseColor">
+			<string name="filename" value="textures/Cobblestone_01_diffuse_xtm.png.png" />
+			<float name="uscale" value="0.5"/>
+    		<float name="vscale" value="1.4"/>
+		</texture>
+		<float name="roughness" value="0.00"/>
+	</bsdf>
+	<bsdf type="disneybsdf" name="mat-wood_fine_23" id="mat-wood_fine_23">
+		<texture type="bitmap" name="base_color">
+			<string name="filename" value="textures/wood_fine_23_diffuse_xtm.jpg.jpg" />
+		</texture>
+		<float value="1.000000" name="specular_tint" />
+		<float name="specular_transmission" value="0.000000" />
+		<float name="metallic" value="0.000000" />
+		<float name="anisotropic" value="0.000000" />
+		<float name="roughness" value="0.3090000" />
+		<float name="sheen" value="0.000000" />
+		<float value="1.000000" name="sheen_tint" />
+		<float name="clearcoat" value="0.000000" />
+		<float name="clearcoat_gloss" value="0.000900" />
+		<float name="specular" value="0.170000" />
+		<float name="eta" value="1.450000" />
+	</bsdf>
+	<bsdf type="disneybsdf" name="mat-caizhi.016" id="mat-caizhi.016">
+		<rgb value="0.800000 0.800000 0.800000" name="base_color" />
+		<float value="1.000000" name="specular_tint" />
+		<float name="specular_transmission" value="0.000000" />
+		<float name="metallic" value="0.6000000" />
+		<float name="anisotropic" value="0.000000" />
+		<float name="roughness" value="0.50250000" />
+		<float name="sheen" value="0.000000" />
+		<float value="1.000000" name="sheen_tint" />
+		<float name="clearcoat" value="0.000000" />
+		<float name="clearcoat_gloss" value="0.000900" />
+		<float name="specular" value="0.500000" />
+		<float name="eta" value="1.450000" />
+	</bsdf>
+	<bsdf type="disneybsdf" name="mat-Wood09" id="mat-Wood09">
+		<texture type="bitmap" name="base_color">
+			<string name="filename" value="textures/Wood09_diffuse_mod.jpg" />
+		</texture>
+		<float value="1.000000" name="specular_tint" />
+		<float name="specular_transmission" value="0.000000" />
+		<float name="metallic" value="0.74000000" />
+		<float name="anisotropic" value="0.000000" />
+		<float name="roughness" value="0.4160250000" />
+		<float name="sheen" value="0.1000000" />
+		<float value="1.000000" name="sheen_tint" />
+		<float name="clearcoat" value="0.6000000" />
+		<float name="clearcoat_gloss" value="0.000900" />
+		<float name="specular" value="0.900000" />
+		<float name="eta" value="1.450000" />
+	</bsdf>
+	<bsdf type="disneybsdf" name="mat-WoodFloor16.001" id="mat-WoodFloor16.001">
+		<texture type="bitmap" name="base_color">
+			<string name="filename" value="textures/Image0100.001.png" />
+		</texture>
+		<float value="1.000000" name="specular_tint" />
+		<float name="specular_transmission" value="0.000000" />
+		<float name="metallic" value="0.6000000" />
+		<float name="anisotropic" value="0.000000" />
+		<float name="roughness" value="0.2027072900" />
+		<float name="sheen" value="0.000000" />
+		<float value="1.000000" name="sheen_tint" />
+		<float name="clearcoat" value="0.000000" />
+		<float name="clearcoat_gloss" value="0.000900" />
+		<float name="specular" value="0.900000" />
+		<float name="eta" value="1.450000" />
+	</bsdf>
+	<bsdf type="disneydiffuse" name="mat-concrete_new" id="mat-concrete_new">
+		<texture type="bitmap" name="baseColor">
+			<string name="filename" value="textures/Image0100.png" />
+			<float name="uscale" value="3.1"/>
+    		<float name="vscale" value="2.1"/>
+		</texture>
+		<float name="roughness" value="0.464"/>
+	</bsdf>
+	<bsdf type="disneybsdf" name="mat-caizhi.015" id="mat-caizhi.015">
+		<rgb value="0.000000 0.011903 0.065042" name="base_color" />
+		<float value="1.000000" name="specular_tint" />
+		<float name="specular_transmission" value="0.000000" />
+		<float name="metallic" value="0.000000" />
+		<float name="anisotropic" value="0.000000" />
+		<float name="roughness" value="0.50250000" />
+		<float name="sheen" value="0.000000" />
+		<float value="1.000000" name="sheen_tint" />
+		<float name="clearcoat" value="0.000000" />
+		<float name="clearcoat_gloss" value="0.000900" />
+		<float name="specular" value="0.500000" />
+		<float name="eta" value="1.450000" />
+	</bsdf>
+
+
+
+
+
+
+<bsdf type="disneybsdf" name="mat-caizhi.013" id="mat-caizhi.013">
+		<rgb value="0.800000 0.529401 0.377807" name="base_color" />
+		<float value="1.000000" name="specular_tint" />
+		<float name="specular_transmission" value="0.000000" />
+		<float name="metallic" value="0.013636" />
+		<float name="anisotropic" value="0.000000" />
+		<float name="roughness" value="0.01800331" />
+		<float name="sheen" value="0.000000" />
+		<float value="1.000000" name="sheen_tint" />
+		<float name="clearcoat" value="0.000000" />
+		<float name="clearcoat_gloss" value="0.000900" />
+		<float name="specular" value="0.500000" />
+		<float name="eta" value="1.450000" />
+	</bsdf>
+	<bsdf type="disneybsdf" name="mat-caizhi.012" id="mat-caizhi.012">
+		<rgb value="0.715820 0.679690 0.637700" name="base_color" />
+		<float value="1.000000" name="specular_tint" />
+		<float name="specular_transmission" value="0.000000" />
+		<float name="metallic" value="0.0366364" />
+		<float name="anisotropic" value="0.000000" />
+		<float name="roughness" value="0.001000000" />
+		<float name="sheen" value="0.000000" />
+		<float value="1.000000" name="sheen_tint" />
+		<float name="clearcoat" value="0.000000" />
+		<float name="clearcoat_gloss" value="0.000900" />
+		<float name="specular" value="0.500000" />
+		<float name="eta" value="1.450000" />
+	</bsdf>
+	<bsdf type="disneybsdf" name="mat-caizhi.033" id="mat-caizhi.033">
+		<rgb value="0.800000 0.611749 0.734137" name="base_color" />
+		<float value="1.000000" name="specular_tint" />
+		<float name="specular_transmission" value="0.000000" />
+		<float name="metallic" value="0.495455" />
+		<float name="anisotropic" value="0.000000" />
+		<float name="roughness" value="0.02700744" />
+		<float name="sheen" value="0.000000" />
+		<float value="1.000000" name="sheen_tint" />
+		<float name="clearcoat" value="0.000000" />
+		<float name="clearcoat_gloss" value="0.000900" />
+		<float name="specular" value="0.500000" />
+		<float name="eta" value="1.450000" />
+	</bsdf>
+	<bsdf type="disneybsdf" name="mat-caizhi.011" id="mat-caizhi.011">
+		<texture type="bitmap" name="base_color">
+			<string name="filename" value="textures/qhc.jpg" />
+		</texture>
+		<float value="1.000000" name="specular_tint" />
+		<float name="specular_transmission" value="0.000000" />
+		<float name="metallic" value="0.000000" />
+		<float name="anisotropic" value="0.000000" />
+		<float name="roughness" value="0.50250000" />
+		<float name="sheen" value="0.000000" />
+		<float value="1.000000" name="sheen_tint" />
+		<float name="clearcoat" value="0.000000" />
+		<float name="clearcoat_gloss" value="0.000900" />
+		<float name="specular" value="0.500000" />
+		<float name="eta" value="1.450000" />
+	</bsdf>
+	<bsdf type="diffuse" name="mat-wood_fine_11.001" id="mat-wood_fine_11.001">
+		<texture type="bitmap" name="reflectance">
+			<string name="filename" value="textures/Image0100.003.png" />
+		</texture>
+	</bsdf>
+	<bsdf type="disneybsdf" name="mat-CorrugatedSteel03" id="mat-CorrugatedSteel03">
+		<rgb value="0.494688 0.514781 0.519973" name="base_color" />
+		<float value="1.000000" name="specular_tint" />
+		<float name="specular_transmission" value="0.000000" />
+		<float name="metallic" value="0.490000" />
+		<float name="anisotropic" value="0.000000" />
+		<float name="roughness" value="0.02700729" />
+		<float name="sheen" value="0.000000" />
+		<float value="1.000000" name="sheen_tint" />
+		<float name="clearcoat" value="0.000000" />
+		<float name="clearcoat_gloss" value="0.000900" />
+		<float name="specular" value="0.500000" />
+		<float name="eta" value="1.450000" />
+	</bsdf>
+	<bsdf type="diffuse" name="mat-wood_fine_23.001" id="mat-wood_fine_23.001">
+		<rgb value="0.066592 0.019398 0.007259" name="reflectance" />
+	</bsdf>
+
+
+    <bsdf type="disneybsdf" name="mat-caizhi.025" id="mat-caizhi.025">
+		<rgb value="0.018 0.11000 0.016" name="base_color" />
+		<float value="1.000000" name="specular_tint" />
+		<float name="specular_transmission" value="0.000000" />
+		<float name="metallic" value="0.000000" />
+		<float name="anisotropic" value="0.000000" />
+		<float name="roughness" value="0.5" />
+		<float name="sheen" value="0.000000" />
+		<float value="1.000000" name="sheen_tint" />
+		<float name="clearcoat" value="0.000000" />
+		<float name="clearcoat_gloss" value="0.000900" />
+		<float name="specular" value="0.500000" />
+		<float name="eta" value="1.450000" />
+	</bsdf>
+
+
+
+	<bsdf type="disneybsdf" name="mat-Red_cotton_01" id="mat-Red_cotton_01">
+		<texture type="bitmap" name="base_color">
+			<string name="filename" value="textures/Red_cotton_01_diffuse_xtm.png" />
+		</texture>
+		<float value="1.000000" name="specular_tint" />
+		<float name="specular_transmission" value="0.000000" />
+		<float name="metallic" value="0.000000" />
+		<float name="anisotropic" value="0.000000" />
+		<float name="roughness" value="1.000000" />
+		<float name="sheen" value="0.000000" />
+		<float value="1.000000" name="sheen_tint" />
+		<float name="clearcoat" value="0.000000" />
+		<float name="clearcoat_gloss" value="0.000900" />
+		<float name="specular" value="0.900000" />
+		<float name="eta" value="1.450000" />
+	</bsdf>
+
+
+
+
+
+
+
+
+
+
+
+	<bsdf type="disneybsdf" name="mat-caizhi.026" id="mat-caizhi.026">
+		<texture type="bitmap" name="base_color">
+			<string name="filename" value="textures/Image0100.004.png" />
+		</texture>
+		<float value="0.800000" name="specular_tint" />
+		<float name="specular_transmission" value="0.000000" />
+		<float name="metallic" value="0.000000" />
+		<float name="anisotropic" value="0.000000" />
+		<float name="roughness" value="0.5360287686" />
+		<float name="sheen" value="0.000000" />
+		<float value="1.000000" name="sheen_tint" />
+		<float name="clearcoat" value="0.000000" />
+		<float name="clearcoat_gloss" value="0.000900" />
+		<float name="specular" value="0.477273" />
+		<float name="eta" value="1.450000" />
+	</bsdf>
+	<bsdf type="disneybsdf" name="mat-caizhi.014" id="mat-caizhi.014">
+		<rgb value="0.38794 0.365235 0.39966" name="base_color" />
+		<!-- 0.77588 0.73047 0.79932-->
+		<float value="1.000000" name="specular_tint" />
+		<float name="specular_transmission" value="0.000000" />
+		<float name="metallic" value="0.000000" />
+		<float name="anisotropic" value="0.000000" />
+		<float name="roughness" value="0.500250000" />
+		<float name="sheen" value="0.000000" />
+		<float value="1.000000" name="sheen_tint" />
+		<float name="clearcoat" value="0.000000" />
+		<float name="clearcoat_gloss" value="0.000900" />
+		<float name="specular" value="0.500000" />
+		<float name="eta" value="1.450000" />
+	</bsdf>
+
+
+
+
+	<bsdf type="npr" id="mat-caizhi" name="mat-caizhi">
+		
+		<texture type="bitmap" name="diffuse_color">
+			<string name="filename" value="textures/Image0100.006.png"/>
+			<float name="uscale" value="1.0"/>
+			<float name="vscale" value="0.9"/>
+			<float name="uoffset" value="0.0"/>
+			<float name="voffset" value="0.1"/>
+		</texture>
+		
+		
+		
+		<float name="color_scale" value="1.5"/> <!-- times diffuse texture, too large is wierd --> 
+		<rgb name="metallic_color" value="0.50, 0.48, 0.50"/>
+		<float name="Fac" value="0.0019"/>
+		<float name="diffuse_roughness" value="0.9967169"/>
+		<float name="metallic_roughness" value="0.08"/>
+
+		<!-- if no specify, use diffuse_color texture alpha channel; 
+		if no texture or texture no alpha, default to 1.0 --> 
+		<float name="Fac2" value="0.530033"/> 
+	</bsdf>
+
+
+	<bsdf type="disneydiffuse" name="mat-caizhi.010" id="mat-caizhi.010">
+		<texture type="bitmap" name="base_color">
+			<string name="filename" value="textures/6.jpg" />
+		</texture>
+		<float name="roughness" value="0.5"/>
+	</bsdf>
+
+
+	<bsdf type="disneybsdf" name="mat-caizhi.019" id="mat-caizhi.019">
+		<texture type="bitmap" name="base_color">
+			<string name="filename" value="textures/huang.jpg" />
+		</texture>
+		<float value="1.000000" name="specular_tint" />
+		<float name="specular_transmission" value="0.000000" />
+		<float name="metallic" value="0.000000" />
+		<float name="anisotropic" value="0.000000" />
+		<float name="roughness" value="0.500250000" />
+		<float name="sheen" value="0.000000" />
+		<float value="1.000000" name="sheen_tint" />
+		<float name="clearcoat" value="0.000000" />
+		<float name="clearcoat_gloss" value="0.000900" />
+		<float name="specular" value="0.500000" />
+		<float name="eta" value="1.450000" />
+	</bsdf>
+
+
+	<bsdf type="disneydiffuse" id="mat-Paper03" name="mat-Paper03">
+		<rgb value="0.8 0.8 0.8" name="base_color" />
+		<float name="roughness" value="0.8"/>
+	</bsdf>
+
+
+	<bsdf type="disneybsdf" name="mat-caizhi.020" id="mat-caizhi.020">
+		<texture type="bitmap" name="base_color">
+			<string name="filename" value="textures/3.jpg" />
+		</texture>
+		<float value="1.000000" name="specular_tint" />
+		<float name="specular_transmission" value="0.000000" />
+		<float name="metallic" value="0.000000" />
+		<float name="anisotropic" value="0.000000" />
+		<float name="roughness" value="0.500250000" />
+		<float name="sheen" value="0.000000" />
+		<float value="1.000000" name="sheen_tint" />
+		<float name="clearcoat" value="0.000000" />
+		<float name="clearcoat_gloss" value="0.000900" />
+		<float name="specular" value="0.500000" />
+		<float name="eta" value="1.450000" />
+	</bsdf>
+
+
+
+	<bsdf type="disneybsdf" name="mat-Wood13" id="mat-Wood13">
+		<texture type="bitmap" name="base_color">
+			<string name="filename" value="textures/Image0100.009.png" />
+		</texture>
+		<float value="1.000000" name="specular_tint" />
+		<float name="specular_transmission" value="0.000000" />
+		<float name="metallic" value="0.000000" />
+		<float name="anisotropic" value="0.000000" />
+		<float name="roughness" value="0.3090000" />
+		<float name="sheen" value="0.000000" />
+		<float value="1.000000" name="sheen_tint" />
+		<float name="clearcoat" value="0.000000" />
+		<float name="clearcoat_gloss" value="0.000900" />
+		<float name="specular" value="0.900000" />
+		<float name="eta" value="1.450000" />
+	</bsdf>
+	<bsdf type="disneydiffuse" name="mat-caizhi.009" id="mat-caizhi.009">
+		<texture type="bitmap" name="base_color">
+			<string name="filename" value="textures/4.jpg" />
+		</texture>
+		<float name="roughness" value="0.5"/>
+	</bsdf>
+
+	<bsdf type="disneydiffuse" name="mat-caizhi.008" id="mat-caizhi.008">
+		<texture type="bitmap" name="base_color">
+			<string name="filename" value="textures/2.jpg" />
+			<float name="uscale" value="-1.0"/>
+			<float name="vscale" value="-1.0"/>
+		</texture>
+		<float name="roughness" value="0.5"/>
+	</bsdf>
+
+
+	<bsdf type="disneydiffuse" name="mat-caizhi.007" id="mat-caizhi.007">
+		<texture type="bitmap" name="base_color">
+			<string name="filename" value="textures/Image0100.007.png" />
+		</texture>
+		<float name="roughness" value="0.5"/>
+	</bsdf>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<emitter type="directional" id="elm__6" name="elm__6">
+		<rgb value="6.780000 3.575133 3.055328" name="irradiance" />
+		<float name="scale" value="1.505"/>
+		<transform name="to_world">
+			<matrix value="0.981992 -0.143497 -0.122886 2.789322 0.096396 0.939980 -0.327331 8.623959 0.162481 0.309590 0.936885 -7.639304 0.000000 0.000000 0.000000 1.000000" />
+		</transform>
+	</emitter>
+	<emitter type="constant">
+    		<rgb name="radiance" value="0.66 0.66 0.66"/>
+	</emitter>
+	<shape type="rectangle" id="elm__7" name="elm__7">
+		<boolean name="flip_normals" value="true" />
+		<transform name="to_world">
+			<matrix value="1.083421 0.000000 0.000000 0.000000 0.000000 0.000000 1.083421 4.012902 0.000000 -1.083421 0.000000 0.000000 0.000000 0.000000 0.000000 1.000000" />
+		</transform>
+		<emitter type="area" name="emitter">
+			<rgb value="3.345535 3.345535 3.345535" name="radiance" />
+		</emitter>
+		<bsdf type="null" name="bsdf" />
+	</shape>
+	<shape type="rectangle" id="elm__8" name="elm__8">
+		<boolean name="flip_normals" value="true" />
+		<transform name="to_world">
+			<matrix value="0.700943 0.000000 0.000000 0.000000 0.000000 0.000000 0.700943 4.647297 0.000000 -0.700943 0.000000 0.000000 0.000000 0.000000 0.000000 1.000000" />
+		</transform>
+		<emitter type="area" name="emitter">
+			<rgb value="4.995443 4.995443 4.995443" name="radiance" />
+		</emitter>
+		<bsdf type="null" name="bsdf" />
+	</shape>
+	<shape type="rectangle" id="elm__9" name="elm__9">
+		<boolean name="flip_normals" value="true" />
+		<transform name="to_world">
+			<matrix value="3.760685 0.000000 0.000000 0.000000 0.000000 1.550653 -0.000000 1.775987 0.000000 0.000000 1.550653 8.430000 0.000000 0.000000 0.000000 1.000000" />
+		</transform>
+		<emitter type="area" name="emitter">
+			<rgb value="2.104400 2.104400 2.104400" name="radiance" />
+		</emitter>
+		<bsdf type="null" name="bsdf" />
+	</shape>
+	<shape type="rectangle" id="elm__10" name="elm__10">
+		<boolean name="flip_normals" value="true" />
+		<transform name="to_world">
+			<matrix value="0.500000 0.000000 0.000000 -0.345886 0.000000 0.000000 0.500000 3.232625 0.000000 -0.500000 0.000000 -5.884867 0.000000 0.000000 0.000000 1.000000" />
+		</transform>
+		<emitter type="area" name="emitter">
+			<rgb value="11.817477 11.817477 11.817477" name="radiance" />
+		</emitter>
+		<bsdf type="null" name="bsdf" />
+	</shape>
+	<shape type="rectangle" id="elm__11" name="elm__11">
+		<boolean name="flip_normals" value="true" />
+		<transform name="to_world">
+			<matrix value="-0.580971 0.529061 1.953452 6.811359 1.017447 -1.277339 0.829941 2.709332 4.187488 0.383761 0.069368 0.706157 0.000000 0.000000 0.000000 1.000000" />
+		</transform>
+		<emitter type="area" name="emitter">
+			<rgb value="31.897102 27.614571 27.691841" name="radiance" />
+		</emitter>
+		<bsdf type="null" name="bsdf" />
+	</shape>
+	<shape type="ply" id="elm__3" name="elm__3">
+		<string name="filename" value="meshes/pingmian_020.ply" />
+		<ref id="mat-Wood06.001" name="bsdf" />
+	</shape>
+	<shape type="ply" id="elm__5" name="elm__5">
+		<string name="filename" value="meshes/lifangti_004.ply" />
+		<boolean name="face_normals" value="true" />
+		<ref id="mat-WoodFloor14.001" name="bsdf" />
+	</shape>
+
+
+
+	<shape type="ply" id="elm__7" name="elm__7">
+		<string name="filename" value="meshes/lft_001.ply" />
+		<boolean name="face_normals" value="true" />
+		<ref id="mat-Cobblestone_01" name="bsdf" />
+	</shape>
+	<shape type="ply" id="elm__9" name="elm__9">
+		<string name="filename" value="meshes/lft_007.ply" />
+		<boolean name="face_normals" value="true" />
+		<ref id="mat-wood_fine_23" name="bsdf" />
+	</shape>
+	<shape type="ply" id="elm__11" name="elm__11">
+		<string name="filename" value="meshes/lft_008.ply" />
+		<boolean name="face_normals" value="true" />
+		<ref id="mat-caizhi.016" name="bsdf" />
+	</shape>
+	<shape type="ply" id="elm__13" name="elm__13">
+		<string name="filename" value="meshes/lft_016.ply" />
+		<boolean name="face_normals" value="true" />
+		<ref id="mat-Wood09" name="bsdf" />
+	</shape>
+	<shape type="ply" id="elm__21" name="elm__21">
+		<string name="filename" value="meshes/lft_005.ply" />
+		<boolean name="face_normals" value="true" />
+		<ref id="mat-WoodFloor16.001" name="bsdf" />
+	</shape>
+	<shape type="ply" id="elm__23" name="elm__23">
+		<string name="filename" value="meshes/lft_006.ply" />
+		<boolean name="face_normals" value="true" />
+		<ref id="mat-concrete_new" name="bsdf" />
+	</shape>
+	<shape type="ply" id="elm__25" name="elm__25">
+		<string name="filename" value="meshes/lft_002.ply" />
+		<boolean name="face_normals" value="true" />
+		<ref id="mat-caizhi.015" name="bsdf" />
+	</shape>
+
+
+
+
+    <shape type="ply" id="elm__3" name="elm__3">
+		<string name="filename" value="meshes/zt_009.ply" />
+		<ref id="mat-caizhi.013" name="bsdf" />
+	</shape>
+	<shape type="ply" id="elm__5" name="elm__5">
+		<string name="filename" value="meshes/zt_011.ply" />
+		<ref id="mat-caizhi.012" name="bsdf" />
+	</shape>
+	<shape type="ply" id="elm__7" name="elm__7">
+		<string name="filename" value="meshes/zt_015.ply" />
+		<ref id="mat-caizhi.033" name="bsdf" />
+	</shape>
+	<shape type="ply" id="elm__9" name="elm__9">
+		<string name="filename" value="meshes/zt_014.ply" />
+		<ref id="mat-caizhi.011" name="bsdf" />
+	</shape>
+	<shape type="ply" id="elm__11" name="elm__11">
+		<string name="filename" value="meshes/zt_017.ply" />
+		<boolean name="face_normals" value="true" />
+		<ref id="mat-wood_fine_11.001" name="bsdf" />
+	</shape>
+	<shape type="ply" id="elm__17" name="elm__17">
+		<string name="filename" value="meshes/zt_012.ply" />
+		<ref id="mat-CorrugatedSteel03" name="bsdf" />
+	</shape>
+	<shape type="ply" id="elm__21" name="elm__21">
+		<string name="filename" value="meshes/zt_020.ply" />
+		<ref id="mat-wood_fine_23.001" name="bsdf" />
+	</shape>
+	<shape type="ply" id="elm__23" name="elm__23">
+		<string name="filename" value="meshes/zt_023.ply" />
+		<ref id="mat-caizhi.025" name="bsdf" />
+	</shape>
+	<shape type="ply" id="elm__25" name="elm__25">
+		<string name="filename" value="meshes/zt_026.ply" />
+		<ref id="mat-Red_cotton_01" name="bsdf" />
+	</shape>
+
+
+
+
+    <shape type="ply" id="elm__3" name="elm__3">
+		<string name="filename" value="meshes/pman_022.ply" />
+		<ref id="mat-caizhi.026" name="bsdf" />
+	</shape>
+	<shape type="ply" id="elm__5" name="elm__5">
+		<string name="filename" value="meshes/pman_013.ply" />
+		<ref id="mat-caizhi.014" name="bsdf" />
+	</shape>
+	<shape type="ply" id="elm__7" name="elm__7">
+		<string name="filename" value="meshes/pman_015.ply" />
+		<ref id="mat-caizhi" name="bsdf" />
+	</shape>
+	<shape type="ply" id="elm__9" name="elm__9">
+		<string name="filename" value="meshes/pman_033.ply" />
+		<boolean name="face_normals" value="true" />
+		<ref id="mat-caizhi.010" name="bsdf" />
+	</shape>
+	<shape type="ply" id="elm__19" name="elm__19">
+		<string name="filename" value="meshes/pman_016-caizhi.019.ply" />
+		<boolean name="face_normals" value="true" />
+		<ref id="mat-caizhi.019" name="bsdf" />
+	</shape>
+	<shape type="ply" id="elm__20" name="elm__20">
+		<string name="filename" value="meshes/pman_016-Paper03.ply" />
+		<boolean name="face_normals" value="true" />
+		<ref id="mat-Paper03" name="bsdf" />
+	</shape>
+	<shape type="ply" id="elm__21" name="elm__21">
+		<string name="filename" value="meshes/pman_016-caizhi.020.ply" />
+		<boolean name="face_normals" value="true" />
+		<ref id="mat-caizhi.020" name="bsdf" />
+	</shape>
+	<shape type="ply" id="elm__23" name="elm__23">
+		<string name="filename" value="meshes/pman_001.ply" />
+		<boolean name="face_normals" value="true" />
+		<ref id="mat-Wood13" name="bsdf" />
+	</shape>
+	<shape type="ply" id="elm__25" name="elm__25">
+		<string name="filename" value="meshes/pman_002.ply" />
+		<boolean name="face_normals" value="true" />
+		<ref id="mat-caizhi.009" name="bsdf" />
+	</shape>
+	<shape type="ply" id="elm__27" name="elm__27">
+		<string name="filename" value="meshes/pman_003.ply" />
+		<boolean name="face_normals" value="true" />
+		<ref id="mat-caizhi.008" name="bsdf" />
+	</shape>
+	<shape type="ply" id="elm__29" name="elm__29">
+		<string name="filename" value="meshes/pman_004.ply" />
+		<boolean name="face_normals" value="true" />
+		<ref id="mat-caizhi.007" name="bsdf" />
+	</shape>
+
+
+</scene>

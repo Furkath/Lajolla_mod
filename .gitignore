@@ -43,6 +43,7 @@ build/
 
 # obj files in scenes directory
 !scenes/**/*.obj
-
+**/Cube*.ply
+**/Image0100.004.png
 #vscode related
 .vscode

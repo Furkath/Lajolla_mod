@@ -39,7 +39,13 @@
 		<texture type="bitmap" name="diffuse_color">
 			<string name="filename" value="textures/face.png"/>
 		</texture>
-		<rgb name="metallic_color" value="0.0, 0.0, 0.0"/>
+		
+		<texture type="bitmap" name="toon_color">
+        		<string name="filename" value="textures/skin.bmp"/>
+		</texture>
+		
+		<float name="color_scale" value="1"/> <!-- times diffuse texture, too large is wierd --> 
+		<rgb name="metallic_color" value="0.00, 0.00, 0.00"/>
 		<float name="Fac" value="0.02"/>
 		<float name="diffuse_roughness" value="0.0"/>
 		<float name="metallic_roughness" value="1.0"/>
@@ -50,7 +56,7 @@
 	</bsdf>
 
 <!-- Emitters -->
-	<!--
+  	<!--	
 	<emitter type="point" id="elm__1" name="elm__1">
 		<point name="position" x="4.076250076293945" y="2.903860092163086" z="2.0054500102996826"/>
 		<rgb value="79.577469 79.577469 79.577469" name="intensity"/>
@@ -68,7 +74,7 @@
 		<float name="scale" value="0.1"/>
 	</emitter>
 	<emitter type="constant">
-    		<rgb name="radiance" value="0.06 0.06 0.06"/>
+    		<rgb name="radiance" value="0.36267 0.36267 0.36267"/>
 	</emitter>
 
 <!-- Shapes -->

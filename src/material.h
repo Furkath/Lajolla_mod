@@ -92,11 +92,26 @@ struct DisneySheen {
 /// Not registered in Material variant — used only as a sub-lobe.
 struct TransparentBSDF {};
 
+/// NPR diffuse sub-lobe: DisneyDiffuse with pre-evaluated toon/sphere matcap colors.
+/// Effective base color = toon * base_color + sphere
+/// Not registered in Material variant — used only as a sub-lobe inside NprBSDF.
+struct NprDiffuse {
+    Texture<Spectrum> base_color;
+    Texture<Real> roughness;
+    Texture<Real> subsurface;
+    Spectrum toon;        // pre-evaluated toon matcap color
+    Spectrum sphere;      // pre-evaluated sphere matcap color
+};
+
 /// NPR BSDF: simplified Disney with only diffuse + metal + transparent lobes.
 /// Blending: ((1-Fac)*diffuse + Fac*metal) * Fac2 + (1-Fac2) * transparent
 struct NprBSDF {
     Texture<Spectrum> diffuse_color;
     Texture<Spectrum> metallic_color;
+    Texture<Spectrum> toon_color;   // matcap texture, looked up with view-space normal UV; multiplied with result
+    Texture<Spectrum> sphere_color; // second matcap texture, looked up same way; multiplied with toon
+    Texture<Real> toon_alpha;       // alpha from toon matcap; multiplied into opacity (matcap UV)
+    Texture<Real> sphere_alpha;     // alpha from sphere matcap; multiplied into opacity (matcap UV)
     Texture<Real> Fac;   // blend factor: 0 = fully diffuse, 1 = fully metal
     Texture<Real> Fac2;  // opacity: 1 = fully opaque, 0 = fully transparent (from alpha)
     Texture<Real> metallic;  // metallic parameter for TintMetal Fresnel (separate from Fac)
@@ -107,6 +122,7 @@ struct NprBSDF {
     Texture<Real> specular_tint;
     Texture<Real> anisotropic;
 
+    Real color_scale;
     Real eta;
 };
 
