@@ -50,8 +50,8 @@ Spectrum eval_op::operator()(const NprBSDF &bsdf) const {
     // Use face_front from true geometric normal (triangle winding),
     // matching Blender's "Backfacing" node behavior.
     bool front_face = vertex.face_front;
-    //If backfacing, just see through
-    if (!front_face) fac2 = 0;
+    //If backfacing, just see through (unless doublesided)
+    if (!front_face && !bsdf.doublesided) fac2 = 0;
 
     Spectrum total = make_zero_spectrum();
 
@@ -63,9 +63,10 @@ Spectrum eval_op::operator()(const NprBSDF &bsdf) const {
         Spectrum sphere = eval(bsdf.sphere_color, toon_uv, vertex.uv_screen_size, texture_pool);
 
         NprDiffuse diffuse_lobe = {bsdf.diffuse_color, bsdf.diffuse_roughness, bsdf.subsurface,
-                                   toon, sphere};
-        DisneyTintMetal metal_lobe = {bsdf.metallic_color, bsdf.metallic_roughness, bsdf.anisotropic,
-                                      bsdf.specular, bsdf.specular_tint, bsdf.metallic, bsdf.eta};
+                                   toon, sphere, bsdf.doublesided};
+        NprTintMetal metal_lobe = {bsdf.metallic_color, bsdf.metallic_roughness, bsdf.anisotropic,
+                                      bsdf.specular, bsdf.specular_tint, bsdf.metallic, bsdf.eta,
+                                      bsdf.doublesided};
 
         Spectrum opaque = make_zero_spectrum();
         opaque += (1 - fac) * bsdf.color_scale * (*this)(diffuse_lobe);
@@ -90,8 +91,8 @@ Real pdf_sample_bsdf_op::operator()(const NprBSDF &bsdf) const {
     // Use face_front from true geometric normal (triangle winding),
     // matching Blender's "Backfacing" node behavior.
     bool front_face = vertex.face_front;
-    //If backfacing, just see through
-    if (!front_face) fac2 = 0;
+    //If backfacing, just see through (unless doublesided)
+    if (!front_face && !bsdf.doublesided) fac2 = 0;
 
     Real w_opaque = fac2;
     Real w_transparent = Real(1) - fac2;
@@ -109,9 +110,10 @@ Real pdf_sample_bsdf_op::operator()(const NprBSDF &bsdf) const {
         Real wo_sum = wo_diffuse + wo_metal;
 
         NprDiffuse diffuse_lobe = {bsdf.diffuse_color, bsdf.diffuse_roughness, bsdf.subsurface,
-                                   make_zero_spectrum(), make_zero_spectrum()};
-        DisneyTintMetal metal_lobe = {bsdf.metallic_color, bsdf.metallic_roughness, bsdf.anisotropic,
-                                      bsdf.specular, bsdf.specular_tint, bsdf.metallic, bsdf.eta};
+                                   make_zero_spectrum(), make_zero_spectrum(), bsdf.doublesided};
+        NprTintMetal metal_lobe = {bsdf.metallic_color, bsdf.metallic_roughness, bsdf.anisotropic,
+                                      bsdf.specular, bsdf.specular_tint, bsdf.metallic, bsdf.eta,
+                                      bsdf.doublesided};
 
         Real opaque_pdf = 0;
         if (wo_sum > 0) {
@@ -139,8 +141,8 @@ std::optional<BSDFSampleRecord>
     // Use face_front from true geometric normal (triangle winding),
     // matching Blender's "Backfacing" node behavior.
     bool front_face = vertex.face_front;
-    //If backfacing, just see through
-    if (!front_face) fac2 = 0;
+    //If backfacing, just see through (unless doublesided)
+    if (!front_face && !bsdf.doublesided) fac2 = 0;
 
     Real w_opaque = fac2;
     Real w_transparent = Real(1) - fac2;
@@ -162,15 +164,16 @@ std::optional<BSDFSampleRecord>
 
         if (wo_diffuse > 0 && q < wo_diffuse) {
             NprDiffuse diffuse_lobe = {bsdf.diffuse_color, bsdf.diffuse_roughness, bsdf.subsurface,
-                                       make_zero_spectrum(), make_zero_spectrum()};
+                                       make_zero_spectrum(), make_zero_spectrum(), bsdf.doublesided};
             Real q_ = q / wo_diffuse;
             sample_bsdf_op sub_op = {dir_in, vertex, texture_pool, rnd_param_uv, q_, dir};
             return sub_op(diffuse_lobe);
         }
         q -= wo_diffuse;
 
-        DisneyTintMetal metal_lobe = {bsdf.metallic_color, bsdf.metallic_roughness, bsdf.anisotropic,
-                                      bsdf.specular, bsdf.specular_tint, bsdf.metallic, bsdf.eta};
+        NprTintMetal metal_lobe = {bsdf.metallic_color, bsdf.metallic_roughness, bsdf.anisotropic,
+                                      bsdf.specular, bsdf.specular_tint, bsdf.metallic, bsdf.eta,
+                                      bsdf.doublesided};
         Real q_ = fmin(q / wo_metal, 1.0 - 1e-6);
         sample_bsdf_op sub_op = {dir_in, vertex, texture_pool, rnd_param_uv, q_, dir};
         return sub_op(metal_lobe);

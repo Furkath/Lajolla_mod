@@ -1183,6 +1183,7 @@ std::tuple<std::string /* ID */, Material> parse_bsdf(
         Texture<Real> anisotropic = make_constant_float_texture(Real(0));
         Real color_scale = Real(1);
         Real eta = Real(1.5);
+        bool doublesided = false;
         bool fac2_explicitly_set = false;
         // Track bitmap filenames and UV params for automatic alpha extraction
         struct BitmapInfo { fs::path filename; Real us = 1, vs = 1, uo = 0, vo = 0; };
@@ -1264,6 +1265,8 @@ std::tuple<std::string /* ID */, Material> parse_bsdf(
                 color_scale = parse_float(child.attribute("value").value(), default_map);
             } else if (name == "eta") {
                 eta = parse_float(child.attribute("value").value(), default_map);
+            } else if (name == "doublesided" || name == "double_sided") {
+                doublesided = parse_boolean(child.attribute("value").value(), default_map);
             }
         }
         // Auto-load alpha channels from bitmap textures
@@ -1297,7 +1300,7 @@ std::tuple<std::string /* ID */, Material> parse_bsdf(
                                            fac, fac2, metallic,
                                            diffuse_roughness, metallic_roughness,
                                            subsurface, specular, specular_tint, anisotropic,
-                                           color_scale, eta,
+                                           color_scale, eta, doublesided,
                                            Matrix4x4::identity()});
     } else if (type == "null") {
         // TODO: implement actual null BSDF (the ray will need to pass through the shape)

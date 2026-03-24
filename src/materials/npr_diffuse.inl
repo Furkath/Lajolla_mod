@@ -1,8 +1,10 @@
 /// NprDiffuse: DisneyDiffuse with effective color = toon * base_color + sphere
 
 Spectrum eval_op::operator()(const NprDiffuse &bsdf) const {
-    if (dot(vertex.geometric_normal, dir_in) <= 0) {
-        return make_zero_spectrum();
+    if (!bsdf.doublesided) {
+        if (dot(vertex.geometric_normal, dir_in) <= 0) {
+            return make_zero_spectrum();
+        }
     }
     Frame frame = vertex.shading_frame;
     if (dot(frame.n, dir_in) < 0) {
@@ -43,8 +45,10 @@ Spectrum eval_op::operator()(const NprDiffuse &bsdf) const {
 }
 
 Real pdf_sample_bsdf_op::operator()(const NprDiffuse &bsdf) const {
-    if (dot(vertex.geometric_normal, dir_in) < 0) {
-        return 0;
+    if (!bsdf.doublesided) {
+        if (dot(vertex.geometric_normal, dir_in) < 0) {
+            return 0;
+        }
     }
     Frame frame = vertex.shading_frame;
     if (dot(frame.n, dir_in) < 0) {
@@ -58,8 +62,10 @@ Real pdf_sample_bsdf_op::operator()(const NprDiffuse &bsdf) const {
 }
 
 std::optional<BSDFSampleRecord> sample_bsdf_op::operator()(const NprDiffuse &bsdf) const {
-    if (dot(vertex.geometric_normal, dir_in) < 0) {
-        return {};
+    if (!bsdf.doublesided) {
+        if (dot(vertex.geometric_normal, dir_in) < 0) {
+            return {};
+        }
     }
     Frame frame = vertex.shading_frame;
     if (dot(frame.n, dir_in) < 0) {

@@ -103,6 +103,21 @@ struct NprDiffuse {
     Texture<Real> subsurface;
     Spectrum toon;        // pre-evaluated toon matcap color
     Spectrum sphere;      // pre-evaluated sphere matcap color
+    bool doublesided;     // if true, render color even on backface
+};
+
+/// NPR variant of DisneyTintMetal with double-sided support.
+/// When doublesided=true, geometric_normal rejection is skipped.
+struct NprTintMetal {
+    Texture<Spectrum> base_color;
+    Texture<Real> roughness;
+    Texture<Real> anisotropic;
+    Texture<Real> specular;
+    Texture<Real> specularTint;
+    Texture<Real> metallic;
+
+    Real eta;
+    bool doublesided;
 };
 
 /// NPR BSDF: simplified Disney with only diffuse + metal + transparent lobes.
@@ -126,6 +141,7 @@ struct NprBSDF {
 
     Real color_scale;
     Real eta;
+    bool doublesided;     // if true, render color even on backface
 
     Matrix4x4 world_to_cam; // camera view matrix for toon/matcap UV
 };

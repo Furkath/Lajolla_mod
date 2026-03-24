@@ -299,6 +299,8 @@
 	<float name="Fac" value="0.02"/>
 	<float name="diffuse_roughness" value="0.0"/>
 	<float name="metallic_roughness" value="1.0"/>
+
+	<boolean name="doublesided" value="true"/>
 </bsdf>
 
 <bsdf type="npr" id="mat-ji2" name="mat-ji2">
@@ -369,6 +371,8 @@
 	<float name="Fac" value="0.02"/>
 	<float name="diffuse_roughness" value="0.0"/>
 	<float name="metallic_roughness" value="1.0"/>
+
+	<boolean name="doublesided" value="true"/>
 </bsdf>
 
 <bsdf type="npr" id="mat-pifengshi" name="mat-pifengshi">
@@ -397,6 +401,8 @@
 	<float name="Fac" value="0.02"/>
 	<float name="diffuse_roughness" value="0.0"/>
 	<float name="metallic_roughness" value="1.0"/>
+
+	<boolean name="doublesided" value="true"/>
 </bsdf>
 
 <bsdf type="npr" id="mat-yanzhao" name="mat-yanzhao">
@@ -427,7 +433,36 @@
 	<float name="metallic_roughness" value="1.0"/>
 </bsdf>
 
+<bsdf type="npr" id="mat-ti" name="mat-ti">
+	<texture type="bitmap" name="diffuse_color">
+		<string name="filename" value="textures/ti.png"/>
+	</texture>
+	<texture type="bitmap" name="toon_color">
+		<string name="filename" value="textures/toon_defo.bmp"/>
+	</texture>
+	<float name="color_scale" value="1"/>
+	<rgb name="metallic_color" value="0.00, 0.00, 0.00"/>
+	<float name="Fac" value="0.02"/>
+	<float name="diffuse_roughness" value="0.0"/>
+	<float name="metallic_roughness" value="1.0"/>
 
+</bsdf>
+
+
+<bsdf type="npr" id="mat-ji" name="mat-ji">
+	<texture type="bitmap" name="diffuse_color">
+		<string name="filename" value="textures/ji.png"/>
+	</texture>
+	<texture type="bitmap" name="toon_color">
+		<string name="filename" value="textures/skin.bmp"/>
+	</texture>
+	<float name="color_scale" value="1"/>
+	<rgb name="metallic_color" value="0.00, 0.00, 0.00"/>
+	<float name="Fac" value="0.02"/>
+	<float name="diffuse_roughness" value="0.0"/>
+	<float name="metallic_roughness" value="1.0"/>
+
+</bsdf>
 
 
 
@@ -578,6 +613,18 @@
 <shape type="ply" id="elm__25" name="elm__25">
 <string name="filename" value="meshes/025_xie.ply"/>
 <ref id="mat-xie" name="bsdf"/>
+</shape>
+
+
+<shape type="ply" id="elm__33" name="elm__33">
+<string name="filename" value="meshes/013_ti.ply"/>
+<ref id="mat-ti" name="bsdf"/>
+</shape>
+
+
+<shape type="ply" id="elm__35" name="elm__35">
+<string name="filename" value="meshes/016_ji.ply"/>
+<ref id="mat-ji" name="bsdf"/>
 </shape>
 
 
