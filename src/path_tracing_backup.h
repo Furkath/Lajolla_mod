@@ -45,40 +45,6 @@ inline Vector3 compute_shadow_origin(const PathVertex &vertex,
     return P;
 }
 
-/// Compute shadow transmittance along a ray, accounting for transparent NprBSDF surfaces.
-/// Returns 1 if fully unoccluded, 0 if fully blocked, intermediate for semi-transparent.
-inline Real shadow_transmittance(const Scene &scene, const Ray &ray) {
-    Real transmittance = Real(1);
-    Real t_min = ray.tnear;
-    const Real t_max = ray.tfar;
-    const int max_iterations = 64;
-
-    for (int iter = 0; iter < max_iterations && transmittance > Real(0); iter++) {
-        Ray seg{ray.org, ray.dir, t_min, t_max};
-        std::optional<PathVertex> hit = intersect(scene, seg);
-        if (!hit) break;
-
-        const Material &mat = scene.materials[hit->material_id];
-        const NprBSDF *npr = std::get_if<NprBSDF>(&mat);
-        if (!npr) {
-            // Non-NprBSDF material — fully opaque
-            transmittance = Real(0);
-            break;
-        }
-
-        Vector2 toon_uv = compute_toon_uv(hit->shading_frame.n, npr->world_to_cam);
-        Real fac2 = eval(npr->Fac2, hit->uv, hit->uv_screen_size, scene.texture_pool)
-                  * eval(npr->toon_alpha, toon_uv, hit->uv_screen_size, scene.texture_pool)
-                  * eval(npr->sphere_alpha, toon_uv, hit->uv_screen_size, scene.texture_pool);
-        transmittance *= (Real(1) - fac2);
-
-        Real hit_t = distance(ray.org, hit->position);
-        t_min = hit_t + get_intersection_epsilon(scene);
-    }
-
-    return transmittance;
-}
-
 /// Unidirectional path tracing
 Spectrum path_tracing(const Scene &scene,
                       int x, int y, /* pixel coordinates */
@@ -90,19 +56,6 @@ Spectrum path_tracing(const Scene &scene,
     RayDifferential ray_diff = init_ray_differential(w, h);
 
     std::optional<PathVertex> vertex_ = intersect(scene, ray, ray_diff);
-    // Skip fully transparent NprBSDF surfaces on primary ray.
-    for (int skip_i = 0; skip_i < 64 && vertex_; skip_i++) {
-        const Material &m = scene.materials[vertex_->material_id];
-        const NprBSDF *npr = std::get_if<NprBSDF>(&m);
-        if (!npr) break;
-        Vector2 toon_uv = compute_toon_uv(vertex_->shading_frame.n, npr->world_to_cam);
-        Real f2 = eval(npr->Fac2, vertex_->uv, vertex_->uv_screen_size, scene.texture_pool)
-                * eval(npr->toon_alpha, toon_uv, vertex_->uv_screen_size, scene.texture_pool)
-                * eval(npr->sphere_alpha, toon_uv, vertex_->uv_screen_size, scene.texture_pool);
-        if (f2 > 0) break;
-        ray = Ray{vertex_->position, ray.dir, get_intersection_epsilon(scene), infinity<Real>()};
-        vertex_ = intersect(scene, ray, ray_diff);
-    }
     if (!vertex_) {
         // Primary ray missed geometry: use background color if set,
         // otherwise show the envmap as usual.
@@ -205,7 +158,6 @@ Spectrum path_tracing(const Scene &scene,
             // Let's first deal with C1 = G * f * L.
             // Let's first compute G.
             Real G = 0;
-            Real trans = 0;
             Vector3 dir_light;
 
             // The geometry term is different between directional light sources and
@@ -239,8 +191,7 @@ Spectrum path_tracing(const Scene &scene,
                                get_shadow_epsilon(scene),
                                (1 - get_shadow_epsilon(scene)) *
                                    distance(point_on_light.position, vertex.position)};
-                trans = shadow_transmittance(scene, shadow_ray);
-                if (trans > 0) {
+                if (!occluded(scene, shadow_ray)) {
                     G = max(-dot(dir_light, point_on_light.normal), Real(0)) /
                         distance_squared(point_on_light.position, vertex.position);
                 }
@@ -271,8 +222,7 @@ Spectrum path_tracing(const Scene &scene,
                 Ray shadow_ray{shadow_origin, dir_light,
                                get_shadow_epsilon(scene),
                                infinity<Real>() /* envmaps are infinitely far away */};
-                trans = shadow_transmittance(scene, shadow_ray);
-                if (trans > 0) {
+                if (!occluded(scene, shadow_ray)) {
                     G = 1;
                 }
             }
@@ -300,9 +250,9 @@ Spectrum path_tracing(const Scene &scene,
                 // for the roughness based heuristics.
                 Spectrum L = emission(light, -dir_light, Real(0), point_on_light, scene);
 
-                // C1 = trans * G * f * L
-                // trans is separate from G to preserve MIS weights (p2 *= G, not p2 *= trans*G).
-                C1 = trans * G * f * L;
+                // C1 is just a product of all of them!
+                // C1 is just a product of all of them!
+                C1 = G * f * L;
 
                 // Next let's compute w1
 
@@ -377,24 +327,6 @@ Spectrum path_tracing(const Scene &scene,
 	Ray bsdf_ray{vertex.position, dir_bsdf, get_intersection_epsilon(scene), infinity<Real>()};
 	std::optional<PathVertex> bsdf_vertex = intersect(scene, bsdf_ray);
 
-        // Skip fully transparent NprBSDF surfaces — they should be invisible to
-        // BSDF-sampled rays, preserving MIS balance with NEE.
-        for (int skip_i = 0; skip_i < 64 && bsdf_vertex; skip_i++) {
-            const Material &hit_mat = scene.materials[bsdf_vertex->material_id];
-            const NprBSDF *npr = std::get_if<NprBSDF>(&hit_mat);
-            if (!npr) break;
-            Vector2 toon_uv = compute_toon_uv(bsdf_vertex->shading_frame.n, npr->world_to_cam);
-            Real hit_fac2 = eval(npr->Fac2, bsdf_vertex->uv,
-                                 bsdf_vertex->uv_screen_size, scene.texture_pool)
-                          * eval(npr->toon_alpha, toon_uv, bsdf_vertex->uv_screen_size, scene.texture_pool)
-                          * eval(npr->sphere_alpha, toon_uv, bsdf_vertex->uv_screen_size, scene.texture_pool);
-            if (hit_fac2 > 0) break; // has opaque component — real surface
-            // Fully transparent — continue ray past it
-            bsdf_ray = Ray{bsdf_vertex->position, dir_bsdf,
-                           get_intersection_epsilon(scene), infinity<Real>()};
-            bsdf_vertex = intersect(scene, bsdf_ray);
-        }
-
         // To update current_path_throughput
         // we need to multiply G(v_{i}, v_{i+1}) * f(v_{i-1}, v_{i}, v_{i+1}) to it
         // and divide it with the pdf for getting v_{i+1} using hemisphere sampling.
@@ -405,30 +337,6 @@ Spectrum path_tracing(const Scene &scene,
         } else {
             // We hit nothing, set G to 1 to account for the environment map contribution.
             G = 1;
-        }
-
-        // Delta BSDF (transparent pass-through): Cycles-style handling.
-        // The surface is invisible — skip MIS, keep throughput, don't count as bounce.
-        if (bsdf_sample.is_delta) {
-            // If we hit a light through the transparent surface, count it
-            // with w2=1 (no MIS — NEE can't importance-sample a delta direction).
-            if (bsdf_vertex && is_light(scene.shapes[bsdf_vertex->shape_id])) {
-                Spectrum L = emission(*bsdf_vertex, -dir_bsdf, scene);
-                radiance += current_path_throughput * L;
-            } else if (!bsdf_vertex && has_envmap(scene)) {
-                const Light &light = get_envmap(scene);
-                Spectrum L = emission(light, -dir_bsdf, ray_diff.spread,
-                                      PointAndNormal{}, scene);
-                radiance += current_path_throughput * L;
-            }
-
-            if (!bsdf_vertex) break;
-
-            // Throughput unchanged (delta f/p = 1). Don't count as bounce.
-            ray = bsdf_ray;
-            vertex = *bsdf_vertex;
-            num_vertices--; // cancel the loop increment — transparent doesn't count
-            continue;
         }
 
         Spectrum f = eval(mat, dir_view, dir_bsdf, vertex, scene.texture_pool);

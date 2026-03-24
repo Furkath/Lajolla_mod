@@ -5,9 +5,18 @@
 /// Front face: full blending of opaque + transparent.
 /// Back face: transparent only (opaque lobes are one-sided).
 
-/// Compute matcap/toon UV from shading normal and incoming ray direction.
-/// Projects shading normal into a camera-aligned frame, maps x,y from [-1,1] to [0,1].
-inline Vector2 compute_toon_uv(const Vector3 &shading_normal, const Vector3 &dir_in) {
+/// Compute matcap/toon UV from shading normal using the camera's view matrix.
+/// Transforms normal to camera space, maps x,y from [-1,1] to [0,1].
+/*inline Vector2 compute_toon_uv(const Vector3 &shading_normal, const Matrix4x4 &world_to_cam) {
+    Vector3 cam_n = xform_vector(world_to_cam, shading_normal);
+    Real u = std::clamp(cam_n.x * Real(0.5) + Real(0.5), Real(0), Real(1));
+    Real v = std::clamp(-cam_n.y * Real(0.5) + Real(0.5), Real(0), Real(1));
+    return Vector2{u, v};
+}
+*/
+/// Old version: per-pixel view frame from ray direction (kept for potential future use).
+/*
+inline Vector2 compute_toon_uv_perpixel(const Vector3 &shading_normal, const Vector3 &dir_in) {
     Real len_sq = dot(dir_in, dir_in);
     if (len_sq < Real(1e-10)) {
         return Vector2{Real(0.5), Real(0.5)};
@@ -28,13 +37,19 @@ inline Vector2 compute_toon_uv(const Vector3 &shading_normal, const Vector3 &dir
     Real v = std::clamp(dot(shading_normal, view_y) * Real(0.5) + Real(0.5), Real(0), Real(1));
     return Vector2{u, v};
 }
+*/
 
 Spectrum eval_op::operator()(const NprBSDF &bsdf) const {
-    Vector2 toon_uv = compute_toon_uv(vertex.shading_frame.n, dir_in);
+    Vector2 toon_uv = compute_toon_uv(vertex.shading_frame.n, bsdf.world_to_cam);
+    // Toon/sphere textures use matcap UV (from camera-space normal), not surface UV.
+    // Use footprint=0 (sharpest mip) since toon_uv varies smoothly and is unrelated
+    // to surface UV screen derivatives.
     Real fac2 = eval(bsdf.Fac2, vertex.uv, vertex.uv_screen_size, texture_pool)
               * eval(bsdf.toon_alpha, toon_uv, vertex.uv_screen_size, texture_pool)
               * eval(bsdf.sphere_alpha, toon_uv, vertex.uv_screen_size, texture_pool);
-    bool front_face = dot(vertex.geometric_normal, dir_in) > 0;
+    // Use face_front from true geometric normal (triangle winding),
+    // matching Blender's "Backfacing" node behavior.
+    bool front_face = vertex.face_front;
     //If backfacing, just see through
     if (!front_face) fac2 = 0;
 
@@ -68,11 +83,13 @@ Spectrum eval_op::operator()(const NprBSDF &bsdf) const {
 }
 
 Real pdf_sample_bsdf_op::operator()(const NprBSDF &bsdf) const {
-    Vector2 toon_uv = compute_toon_uv(vertex.shading_frame.n, dir_in);
+    Vector2 toon_uv = compute_toon_uv(vertex.shading_frame.n, bsdf.world_to_cam);
     Real fac2 = eval(bsdf.Fac2, vertex.uv, vertex.uv_screen_size, texture_pool)
               * eval(bsdf.toon_alpha, toon_uv, vertex.uv_screen_size, texture_pool)
               * eval(bsdf.sphere_alpha, toon_uv, vertex.uv_screen_size, texture_pool);
-    bool front_face = dot(vertex.geometric_normal, dir_in) > 0;
+    // Use face_front from true geometric normal (triangle winding),
+    // matching Blender's "Backfacing" node behavior.
+    bool front_face = vertex.face_front;
     //If backfacing, just see through
     if (!front_face) fac2 = 0;
 
@@ -115,11 +132,13 @@ Real pdf_sample_bsdf_op::operator()(const NprBSDF &bsdf) const {
 
 std::optional<BSDFSampleRecord>
         sample_bsdf_op::operator()(const NprBSDF &bsdf) const {
-    Vector2 toon_uv = compute_toon_uv(vertex.shading_frame.n, dir_in);
+    Vector2 toon_uv = compute_toon_uv(vertex.shading_frame.n, bsdf.world_to_cam);
     Real fac2 = eval(bsdf.Fac2, vertex.uv, vertex.uv_screen_size, texture_pool)
               * eval(bsdf.toon_alpha, toon_uv, vertex.uv_screen_size, texture_pool)
               * eval(bsdf.sphere_alpha, toon_uv, vertex.uv_screen_size, texture_pool);
-    bool front_face = dot(vertex.geometric_normal, dir_in) > 0;
+    // Use face_front from true geometric normal (triangle winding),
+    // matching Blender's "Backfacing" node behavior.
+    bool front_face = vertex.face_front;
     //If backfacing, just see through
     if (!front_face) fac2 = 0;
 

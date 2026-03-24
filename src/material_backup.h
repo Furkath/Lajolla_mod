@@ -132,8 +132,8 @@ struct NprBSDF {
 
 /// Compute toon/matcap UV from shading normal projected into camera space.
 inline Vector2 compute_toon_uv(const Vector3 &shading_normal, const Matrix4x4 &world_to_cam) {
-    Vector3 cam_n = normalize(xform_vector(world_to_cam, shading_normal));
-    Real u = std::clamp(-cam_n.x * Real(0.5) + Real(0.5), Real(0), Real(1));
+    Vector3 cam_n = xform_vector(world_to_cam, shading_normal);
+    Real u = std::clamp(cam_n.x * Real(0.5) + Real(0.5), Real(0), Real(1));
     Real v = std::clamp(-cam_n.y * Real(0.5) + Real(0.5), Real(0), Real(1));
     return Vector2{u, v};
 }
@@ -196,7 +196,6 @@ struct BSDFSampleRecord {
     // The index of refraction ratio. Set to 0 if it's not a transmission event.
     Real eta;
     Real roughness; // Roughness of the selected BRDF layer ([0, 1]).
-    bool is_delta = false; // True for delta distributions (e.g., transparent pass-through).
 };
 
 /// Given incoming direction pointing outwards of the surface point,

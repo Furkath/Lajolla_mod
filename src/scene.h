@@ -28,6 +28,8 @@ struct RenderOptions {
     int rr_depth = 5;
     int vol_path_version = 0;
     int max_null_collisions = 1000;
+    bool use_background_color = false;
+    Vector3 background_color = Vector3{0.5, 0.5, 0.5};
 };
 
 /// Bounding sphere

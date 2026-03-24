@@ -45,5 +45,6 @@ build/
 !scenes/**/*.obj
 **/Cube*.ply
 **/Image0100.004.png
+**/agx_img.png
 #vscode related
 .vscode

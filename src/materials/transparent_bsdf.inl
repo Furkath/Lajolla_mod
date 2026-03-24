@@ -1,32 +1,24 @@
 /// Straight-through transparent BSDF (internal sub-lobe, not standalone).
-/// Rays pass through unchanged. eval and pdf return matched values (1.0)
-/// for the straight-through direction so throughput = eval/pdf = 1.0.
-/// No geometric normal check — works from both sides of the surface.
+/// True delta distribution, following Blender Cycles' approach:
+///   eval = 0, pdf = 0 (delta has no continuous density)
+///   sample returns -dir_in with is_delta = true
+/// The path tracer detects is_delta and handles throughput (= 1) directly,
+/// skipping MIS. Shadow rays use shadow_transmittance instead of occluded.
 
 Spectrum eval_op::operator()(const TransparentBSDF &bsdf) const {
-    // Only non-zero for the exact straight-through direction.
-    // When sampled, dir_out = -dir_in exactly, so dot = 1.0.
-    // For NEE, dir_out is a light direction (almost never exactly -dir_in),
-    // so this returns 0 — correct for a delta distribution.
-    if (dot(dir_out, -dir_in) > Real(0.999)) {
-        return make_const_spectrum(Real(1));
-    }
+    // True delta: zero in the continuous sense.
     return make_zero_spectrum();
 }
 
 Real pdf_sample_bsdf_op::operator()(const TransparentBSDF &bsdf) const {
-    if (dot(dir_out, -dir_in) > Real(0.999)) {
-        return Real(1);
-    }
+    // True delta: zero in the continuous sense.
     return Real(0);
 }
 
 std::optional<BSDFSampleRecord>
         sample_bsdf_op::operator()(const TransparentBSDF &bsdf) const {
     // Pass straight through. eta=1 means no index of refraction change.
-    // The path tracer's ray epsilon (get_intersection_epsilon) prevents
-    // self-intersection with the same surface.
-    return BSDFSampleRecord{-dir_in, Real(1) /* eta */, Real(0) /* roughness */};
+    return BSDFSampleRecord{-dir_in, Real(1) /* eta */, Real(0) /* roughness */, true /* is_delta */};
 }
 
 TextureSpectrum get_texture_op::operator()(const TransparentBSDF &bsdf) const {

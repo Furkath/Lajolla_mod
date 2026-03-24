@@ -1,8 +1,8 @@
 <scene version="2.1.0">
-	<default name="spp" value="128" />
+	<default name="spp" value="32" />
 	<default name="resx" value="3840" />
 	<default name="resy" value="2160" />
-	<integrator type="direct" id="elm__0" name="elm__0">
+	<integrator type="path" id="elm__0" name="elm__0">
 		<integer name="max_depth" value="24" />
 	</integrator>
 	<sensor type="perspective" id="elm__1" name="elm__1">
@@ -454,7 +454,7 @@
 
 	<emitter type="directional" id="elm__6" name="elm__6">
 		<rgb value="6.780000 3.575133 3.055328" name="irradiance" />
-		<float name="scale" value="1.505"/>
+		<float name="scale" value="1.505"/> <!-- 1.505 -->
 		<transform name="to_world">
 			<matrix value="0.981992 -0.143497 -0.122886 2.789322 0.096396 0.939980 -0.327331 8.623959 0.162481 0.309590 0.936885 -7.639304 0.000000 0.000000 0.000000 1.000000" />
 		</transform>

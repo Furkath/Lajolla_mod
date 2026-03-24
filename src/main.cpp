@@ -48,4 +48,3 @@ int main(int argc, char *argv[]) {
     rtcReleaseDevice(embree_device);
     return 0;
 }
-

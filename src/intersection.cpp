@@ -56,6 +56,14 @@ std::optional<PathVertex> intersect(const Scene &scene,
     // we get uv_screen_size (du/dx) using (dp/dx)/(dp/du)
     vertex.uv_screen_size = vertex.ray_radius / shading_info.inv_uv_size;
 
+    // Determine front-face from the true geometric normal (Embree's Ng
+    // from triangle winding) BEFORE flipping. This matches Blender's
+    // "Backfacing" node which uses actual face orientation, not the
+    // interpolated shading normal. The difference matters on thin-shell
+    // geometry where vertex normals can point away from the camera even
+    // though the face winding is front-facing.
+    vertex.face_front = dot(vertex.geometric_normal, -ray.dir) > 0;
+
     // Flip the geometry normal to the same direction as the shading normal
     if (dot(vertex.geometric_normal, vertex.shading_frame.n) < 0) {
         vertex.geometric_normal = -vertex.geometric_normal;

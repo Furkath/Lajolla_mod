@@ -2,15 +2,19 @@
 
 <!-- Defaults, these can be set via the command line: -Darg=value -->
 
-	<default name="spp" value="4096"/>
-	<default name="resx" value="1080"/>
-	<default name="resy" value="1080"/>
+	<default name="spp" value="128"/>
+	<default name="resx" value="2160"/>
+	<default name="resy" value="2160"/>
 
 <!-- Camera and Rendering Parameters -->
 
 	<integrator type="path" id="elm__0" name="elm__0">
 		<integer name="max_depth" value="12"/>
+	    
+		<rgb name="background_color" value="0.06 0.06 0.06"/>
+		
 	</integrator>
+	<!--
 	<sensor type="perspective" id="elm__2" name="elm__2">
 		<string name="fov_axis" value="x"/>
 		<float name="fov" value="39.597755"/>
@@ -30,6 +34,28 @@
 		<film type="hdrfilm" name="film">
 			<integer name="width" value="$resx"/>
 			<integer name="height" value="$resy"/>
+		</film>
+	</sensor>
+	-->
+	<sensor type="perspective" id="elm__26" name="elm__26">
+		<string name="fov_axis" value="x"/>
+		<float name="fov" value="41.613583"/>
+		<float name="principal_point_offset_x" value="0.000000"/>
+		<float name="principal_point_offset_y" value="-0.000000"/>
+		<float name="near_clip" value="0.100000"/>
+		<float name="far_clip" value="100.000000"/>
+		<transform name="to_world">
+		<rotate x="1" angle="-168.7593031446779"/>
+		<rotate y="1" angle="-1.0921152317733045"/>
+		<rotate z="1" angle="-179.9999640278213"/>
+		<translate value="0.032604 1.356710 1.579030"/>
+		</transform>
+		<sampler type="independent" name="sampler">
+		<integer name="sample_count" value="$spp"/>
+		</sampler>
+		<film type="hdrfilm" name="film">
+		<integer name="width" value="$resx"/>
+		<integer name="height" value="$resy"/>
 		</film>
 	</sensor>
 
@@ -55,6 +81,356 @@
 		<!-- <float name="Fac2" value="0.5"/>  --> 
 	</bsdf>
 
+
+	<bsdf type="npr" id="mat-yan2" name="mat-yan2">
+		<texture type="bitmap" name="diffuse_color">
+			<string name="filename" value="textures/face.png"/>
+		</texture>
+		
+		<texture type="bitmap" name="toon_color">
+        		<string name="filename" value="textures/skin.bmp"/>
+		</texture>
+		
+		<float name="color_scale" value="1"/>  
+		<rgb name="metallic_color" value="0.00, 0.00, 0.00"/>
+		<float name="Fac" value="0.02"/>
+		<float name="diffuse_roughness" value="0.0"/>
+		<float name="metallic_roughness" value="1.0"/>
+	</bsdf>
+
+	<bsdf type="npr" id="mat-jiemei" name="mat-jiemei">
+		<texture type="bitmap" name="diffuse_color">
+			<string name="filename" value="textures/face.png"/>
+		</texture>
+		
+		<texture type="bitmap" name="toon_color">
+        		<string name="filename" value="textures/hair.bmp"/>
+		</texture>
+		
+		<float name="color_scale" value="1"/>  
+		<rgb name="metallic_color" value="0.00, 0.00, 0.00"/>
+		<float name="Fac" value="0.02"/>
+		<float name="diffuse_roughness" value="0.0"/>
+		<float name="metallic_roughness" value="1.0"/>
+	</bsdf>
+
+	<bsdf type="npr" id="mat-baimu" name="mat-baimu">
+		<texture type="bitmap" name="diffuse_color">
+			<string name="filename" value="textures/face.png"/>
+		</texture>
+		
+		<float name="color_scale" value="1"/>  
+		<rgb name="metallic_color" value="0.00, 0.00, 0.00"/>
+		<float name="Fac" value="0.02"/>
+		<float name="diffuse_roughness" value="0.0"/>
+		<float name="metallic_roughness" value="1.0"/>
+	</bsdf>
+
+	<bsdf type="npr" id="mat-koushe" name="mat-koushe">
+		<texture type="bitmap" name="diffuse_color">
+			<string name="filename" value="textures/face.png"/>
+		</texture>
+		
+		<texture type="bitmap" name="toon_color">
+        		<string name="filename" value="textures/skin.bmp"/>
+		</texture>
+		
+		<float name="color_scale" value="1"/>  
+		<rgb name="metallic_color" value="0.00, 0.00, 0.00"/>
+		<float name="Fac" value="0.02"/>
+		<float name="diffuse_roughness" value="0.0"/>
+		<float name="metallic_roughness" value="1.0"/>
+	</bsdf>
+
+	<bsdf type="npr" id="mat-chi" name="mat-chi">
+		<texture type="bitmap" name="diffuse_color">
+			<string name="filename" value="textures/face.png"/>
+		</texture>
+		
+		<texture type="bitmap" name="toon_color">
+        		<string name="filename" value="textures/toon01.bmp"/>
+		</texture>
+		
+		<float name="color_scale" value="1"/>  
+		<rgb name="metallic_color" value="0.00, 0.00, 0.00"/>
+		<float name="Fac" value="0.02"/>
+		<float name="diffuse_roughness" value="0.0"/>
+		<float name="metallic_roughness" value="1.0"/>
+	</bsdf>
+
+	<bsdf type="npr" id="mat-mu" name="mat-mu">
+		<texture type="bitmap" name="diffuse_color">
+			<string name="filename" value="textures/mu.png"/>
+		</texture>
+		
+		<float name="color_scale" value="1"/>  
+		<rgb name="metallic_color" value="0.00, 0.00, 0.00"/>
+		<float name="Fac" value="0.02"/>
+		<float name="diffuse_roughness" value="0.0"/>
+		<float name="metallic_roughness" value="1.0"/>
+	</bsdf>
+
+
+	<bsdf type="npr" id="mat-xingmu" name="mat-xingmu">
+		<texture type="bitmap" name="diffuse_color">
+			<string name="filename" value="textures/face.png"/>
+		</texture>
+		
+		<float name="color_scale" value="1"/>  
+		<rgb name="metallic_color" value="0.00, 0.00, 0.00"/>
+		<float name="Fac" value="0.02"/>
+		<float name="diffuse_roughness" value="0.0"/>
+		<float name="metallic_roughness" value="1.0"/>
+	</bsdf>
+
+	<bsdf type="npr" id="mat-bing" name="mat-bing">
+		
+		<texture type="bitmap" name="diffuse_color">
+			<string name="filename" value="textures/bing.png"/>
+		</texture>
+		
+		<!--<rgb name="diffuse_color" value="0.03, 0.03, 0.03"/> -->
+		
+		<texture type="bitmap" name="toon_color">
+        		<string name="filename" value="textures/hair.bmp"/>
+		</texture>
+		
+
+		<float name="color_scale" value="1"/>  
+		<rgb name="metallic_color" value="0.00, 0.00, 0.00"/>
+		<float name="Fac" value="0.02"/>
+		<float name="diffuse_roughness" value="0.0"/>
+		<float name="metallic_roughness" value="1.0"/>
+	</bsdf>
+
+	<bsdf type="npr" id="mat-bingjia" name="mat-bingjia">
+		<texture type="bitmap" name="diffuse_color">
+			<string name="filename" value="textures/sp.png"/>
+		</texture>
+		
+		<texture type="bitmap" name="toon_color">
+        		<string name="filename" value="textures/hair.bmp"/>
+		</texture>
+
+		<texture type="bitmap" name="sphere_color">
+        		<string name="filename" value="textures/hair_s.bmp"/>
+		</texture>
+		
+		<float name="color_scale" value="1"/>  
+		<rgb name="metallic_color" value="0.00, 0.00, 0.00"/>
+		<float name="Fac" value="0.02"/>
+		<float name="diffuse_roughness" value="0.0"/>
+		<float name="metallic_roughness" value="1.0"/>
+	</bsdf>
+
+	<bsdf type="npr" id="mat-bingshi" name="mat-bingshi">
+		<texture type="bitmap" name="diffuse_color">
+			<string name="filename" value="textures/bing.png"/>
+		</texture>
+		
+		<texture type="bitmap" name="toon_color">
+        		<string name="filename" value="textures/toon_defo.bmp"/>
+		</texture>
+		
+		<float name="color_scale" value="1"/>  
+		<rgb name="metallic_color" value="0.00, 0.00, 0.00"/>
+		<float name="Fac" value="0.02"/>
+		<float name="diffuse_roughness" value="0.0"/>
+		<float name="metallic_roughness" value="1.0"/>
+	</bsdf>
+
+	<bsdf type="npr" id="mat-toushi" name="mat-toushi">
+		<texture type="bitmap" name="diffuse_color">
+			<string name="filename" value="textures/ti.png"/>
+		</texture>
+		
+		<texture type="bitmap" name="toon_color">
+        		<string name="filename" value="textures/toon_defo.bmp"/>
+		</texture>
+		
+		<float name="color_scale" value="1"/>  
+		<rgb name="metallic_color" value="0.00, 0.00, 0.00"/>
+		<float name="Fac" value="0.02"/>
+		<float name="diffuse_roughness" value="0.0"/>
+		<float name="metallic_roughness" value="1.0"/>
+	</bsdf>
+
+
+
+
+
+<bsdf type="npr" id="mat-toushi2" name="mat-toushi2">
+	<texture type="bitmap" name="diffuse_color">
+		<string name="filename" value="textures/qun.png"/>
+	</texture>
+	<texture type="bitmap" name="toon_color">
+		<string name="filename" value="textures/toon_defo.bmp"/>
+	</texture>
+	<float name="color_scale" value="1"/>
+	<rgb name="metallic_color" value="0.00, 0.00, 0.00"/>
+	<float name="Fac" value="0.02"/>
+	<float name="diffuse_roughness" value="0.0"/>
+	<float name="metallic_roughness" value="1.0"/>
+</bsdf>
+
+<bsdf type="npr" id="mat-xiushi" name="mat-xiushi">
+	<texture type="bitmap" name="diffuse_color">
+		<string name="filename" value="textures/ti.png"/>
+	</texture>
+	<texture type="bitmap" name="toon_color">
+		<string name="filename" value="textures/toon_defo.bmp"/>
+	</texture>
+	<float name="color_scale" value="1"/>
+	<rgb name="metallic_color" value="0.00, 0.00, 0.00"/>
+	<float name="Fac" value="0.02"/>
+	<float name="diffuse_roughness" value="0.0"/>
+	<float name="metallic_roughness" value="1.0"/>
+</bsdf>
+
+<bsdf type="npr" id="mat-qun" name="mat-qun">
+	<texture type="bitmap" name="diffuse_color">
+		<string name="filename" value="textures/qun.png"/>
+	</texture>
+	<texture type="bitmap" name="toon_color">
+		<string name="filename" value="textures/toon_defo.bmp"/>
+	</texture>
+	<float name="color_scale" value="1"/>
+	<rgb name="metallic_color" value="0.00, 0.00, 0.00"/>
+	<float name="Fac" value="0.02"/>
+	<float name="diffuse_roughness" value="0.0"/>
+	<float name="metallic_roughness" value="1.0"/>
+</bsdf>
+
+<bsdf type="npr" id="mat-ji2" name="mat-ji2">
+	<texture type="bitmap" name="diffuse_color">
+		<string name="filename" value="textures/ji2.png"/>
+	</texture>
+	<texture type="bitmap" name="toon_color">
+		<string name="filename" value="textures/skin.bmp"/>
+	</texture>
+	<float name="color_scale" value="1"/>
+	<rgb name="metallic_color" value="0.00, 0.00, 0.00"/>
+	<float name="Fac" value="0.02"/>
+	<float name="diffuse_roughness" value="0.0"/>
+	<float name="metallic_roughness" value="1.0"/>
+</bsdf>
+
+<bsdf type="npr" id="mat-xiu" name="mat-xiu">
+	<texture type="bitmap" name="diffuse_color">
+		<string name="filename" value="textures/qun.png"/>
+	</texture>
+	<texture type="bitmap" name="toon_color">
+		<string name="filename" value="textures/toon_defo.bmp"/>
+	</texture>
+	<float name="color_scale" value="1"/>
+	<rgb name="metallic_color" value="0.00, 0.00, 0.00"/>
+	<float name="Fac" value="0.02"/>
+	<float name="diffuse_roughness" value="0.0"/>
+	<float name="metallic_roughness" value="1.0"/>
+</bsdf>
+
+<bsdf type="npr" id="mat-pijian" name="mat-pijian">
+	<texture type="bitmap" name="diffuse_color">
+		<string name="filename" value="textures/qun.png"/>
+	</texture>
+	<texture type="bitmap" name="toon_color">
+		<string name="filename" value="textures/toon_defo.bmp"/>
+	</texture>
+	<float name="color_scale" value="1"/>
+	<rgb name="metallic_color" value="0.00, 0.00, 0.00"/>
+	<float name="Fac" value="0.02"/>
+	<float name="diffuse_roughness" value="0.0"/>
+	<float name="metallic_roughness" value="1.0"/>
+</bsdf>
+
+<bsdf type="npr" id="mat-pijianshi" name="mat-pijianshi">
+	<texture type="bitmap" name="diffuse_color">
+		<string name="filename" value="textures/ti.png"/>
+	</texture>
+	<texture type="bitmap" name="toon_color">
+		<string name="filename" value="textures/toon_defo.bmp"/>
+	</texture>
+	<float name="color_scale" value="1"/>
+	<rgb name="metallic_color" value="0.00, 0.00, 0.00"/>
+	<float name="Fac" value="0.02"/>
+	<float name="diffuse_roughness" value="0.0"/>
+	<float name="metallic_roughness" value="1.0"/>
+</bsdf>
+
+<bsdf type="npr" id="mat-pifeng" name="mat-pifeng">
+	<texture type="bitmap" name="diffuse_color">
+		<string name="filename" value="textures/qun.png"/>
+	</texture>
+	<texture type="bitmap" name="toon_color">
+		<string name="filename" value="textures/toon_defo.bmp"/>
+	</texture>
+	<float name="color_scale" value="1"/>
+	<rgb name="metallic_color" value="0.00, 0.00, 0.00"/>
+	<float name="Fac" value="0.02"/>
+	<float name="diffuse_roughness" value="0.0"/>
+	<float name="metallic_roughness" value="1.0"/>
+</bsdf>
+
+<bsdf type="npr" id="mat-pifengshi" name="mat-pifengshi">
+	<texture type="bitmap" name="diffuse_color">
+		<string name="filename" value="textures/ti.png"/>
+	</texture>
+	<texture type="bitmap" name="toon_color">
+		<string name="filename" value="textures/toon_defo.bmp"/>
+	</texture>
+	<float name="color_scale" value="1"/>
+	<rgb name="metallic_color" value="0.00, 0.00, 0.00"/>
+	<float name="Fac" value="0.02"/>
+	<float name="diffuse_roughness" value="0.0"/>
+	<float name="metallic_roughness" value="1.0"/>
+</bsdf>
+
+<bsdf type="npr" id="mat-dai" name="mat-dai">
+	<texture type="bitmap" name="diffuse_color">
+		<string name="filename" value="textures/ti.png"/>
+	</texture>
+	<texture type="bitmap" name="toon_color">
+		<string name="filename" value="textures/toon_defo.bmp"/>
+	</texture>
+	<float name="color_scale" value="1"/>
+	<rgb name="metallic_color" value="0.00, 0.00, 0.00"/>
+	<float name="Fac" value="0.02"/>
+	<float name="diffuse_roughness" value="0.0"/>
+	<float name="metallic_roughness" value="1.0"/>
+</bsdf>
+
+<bsdf type="npr" id="mat-yanzhao" name="mat-yanzhao">
+	<texture type="bitmap" name="diffuse_color">
+		<string name="filename" value="textures/yanzhao.png"/>
+	</texture>
+	<texture type="bitmap" name="toon_color">
+		<string name="filename" value="textures/toon_defo.bmp"/>
+	</texture>
+	<float name="color_scale" value="1"/>
+	<rgb name="metallic_color" value="0.00, 0.00, 0.00"/>
+	<float name="Fac" value="0.02"/>
+	<float name="diffuse_roughness" value="0.0"/>
+	<float name="metallic_roughness" value="1.0"/>
+</bsdf>
+
+<bsdf type="npr" id="mat-xie" name="mat-xie">
+	<texture type="bitmap" name="diffuse_color">
+		<string name="filename" value="textures/xie.png"/>
+	</texture>
+	<texture type="bitmap" name="sphere_color">
+		<string name="filename" value="textures/s.bmp"/>
+	</texture>
+	<float name="color_scale" value="1"/>
+	<rgb name="metallic_color" value="0.00, 0.00, 0.00"/>
+	<float name="Fac" value="0.02"/>
+	<float name="diffuse_roughness" value="0.0"/>
+	<float name="metallic_roughness" value="1.0"/>
+</bsdf>
+
+
+
+
+
 <!-- Emitters -->
   	<!--	
 	<emitter type="point" id="elm__1" name="elm__1">
@@ -68,21 +444,142 @@
 		<float name="scale" value="0.1"/>
 	</emitter>
 	-->
+	<!--
 	<emitter type="point" id="elm__6" name="elm__6">
 		<point name="position" x="0.0" y="5.903860092163086" z="2.0054500102996826"/>
 		<rgb value="79.577469 79.577469 79.577469" name="intensity"/>
 		<float name="scale" value="0.1"/>
 	</emitter>
+	-->
+	<!--
 	<emitter type="constant">
-    		<rgb name="radiance" value="0.36267 0.36267 0.36267"/>
+    		<rgb name="radiance" value="50 50 50"/>
 	</emitter>
-
+	-->
+	
+	<emitter type="envmap">
+    	<string name="filename" value="textures/courtyard.hdr"/>
+    	<float name="scale" value="1.0"/>
+    	<transform name="to_world">
+        	<rotate y="1" angle="90"/>
+    	</transform>
+	</emitter>
+	
 <!-- Shapes -->
 
 	<shape type="ply" id="elm__4" name="elm__4">
-		<string name="filename" value="meshes/mod_face.ply"/>
+		<string name="filename" value="meshes/000_face.ply"/>
 		<ref id="mat-face" name="bsdf"/>
 	</shape>
+
+	<shape type="ply" id="elm__4" name="elm__4">
+	<string name="filename" value="meshes/001_yan2.ply"/>
+	<ref id="mat-yan2" name="bsdf"/>
+	</shape>
+	<shape type="ply" id="elm__6" name="elm__6">
+	<string name="filename" value="meshes/002_jiemei.ply"/>
+	<ref id="mat-jiemei" name="bsdf"/>
+	</shape>
+	<shape type="ply" id="elm__8" name="elm__8">
+	<string name="filename" value="meshes/003_baimu.ply"/>
+	<ref id="mat-baimu" name="bsdf"/>
+	</shape>
+	<shape type="ply" id="elm__10" name="elm__10">
+	<string name="filename" value="meshes/004_koushe.ply"/>
+	<ref id="mat-koushe" name="bsdf"/>
+	</shape>
+	<shape type="ply" id="elm__12" name="elm__12">
+	<string name="filename" value="meshes/005_chi.ply"/>
+	<ref id="mat-chi" name="bsdf"/>
+	</shape>
+	<shape type="ply" id="elm__14" name="elm__14">
+	<string name="filename" value="meshes/006_mu.ply"/>
+	<ref id="mat-mu" name="bsdf"/>
+	</shape>
+	<shape type="ply" id="elm__16" name="elm__16">
+	<string name="filename" value="meshes/007_xingmu.ply"/>
+	<ref id="mat-xingmu" name="bsdf"/>
+	</shape>
+
+<!--
+	<shape type="ply" id="elm__18" name="elm__18">
+	<string name="filename" value="meshes/008_bing.ply"/>
+	<ref id="mat-bing" name="bsdf"/>
+	</shape>
+-->
+
+	<shape type="obj" id="elm__18" name="elm__18">
+    <string name="filename" value="meshes/008_bing.obj"/>
+    <ref id="mat-bing" name="bsdf"/>
+	</shape>
+
+
+	<shape type="ply" id="elm__22" name="elm__22">
+	<string name="filename" value="meshes/010_bingshi.ply"/>
+	<ref id="mat-bingshi" name="bsdf"/>
+	</shape>
+	<shape type="ply" id="elm__24" name="elm__24">
+	<string name="filename" value="meshes/011_toushi.ply"/>
+	<ref id="mat-toushi" name="bsdf"/>
+	</shape>
+
+
+	<shape type="ply" id="elm__20" name="elm__20">
+	<string name="filename" value="meshes/009_bing_.ply"/>
+	<ref id="mat-bingjia" name="bsdf"/>
+	</shape>
+
+
+
+<shape type="ply" id="elm__3" name="elm__3">
+<string name="filename" value="meshes/012_toushi2.ply"/>
+<ref id="mat-toushi2" name="bsdf"/>
+</shape>
+<shape type="ply" id="elm__5" name="elm__5">
+<string name="filename" value="meshes/014_xiushi.ply"/>
+<ref id="mat-xiushi" name="bsdf"/>
+</shape>
+<shape type="ply" id="elm__7" name="elm__7">
+<string name="filename" value="meshes/015_qun.ply"/>
+<ref id="mat-qun" name="bsdf"/>
+</shape>
+<shape type="ply" id="elm__9" name="elm__9">
+<string name="filename" value="meshes/017_ji2.ply"/>
+<ref id="mat-ji2" name="bsdf"/>
+</shape>
+<shape type="ply" id="elm__11" name="elm__11">
+<string name="filename" value="meshes/018_xiu.ply"/>
+<ref id="mat-xiu" name="bsdf"/>
+</shape>
+<shape type="ply" id="elm__13" name="elm__13">
+<string name="filename" value="meshes/019_pijian.ply"/>
+<ref id="mat-pijian" name="bsdf"/>
+</shape>
+<shape type="ply" id="elm__15" name="elm__15">
+<string name="filename" value="meshes/020_pijianshi.ply"/>
+<ref id="mat-pijianshi" name="bsdf"/>
+</shape>
+<shape type="ply" id="elm__17" name="elm__17">
+<string name="filename" value="meshes/021_pifeng.ply"/>
+<ref id="mat-pifeng" name="bsdf"/>
+</shape>
+<shape type="ply" id="elm__19" name="elm__19">
+<string name="filename" value="meshes/022_pifengshi.ply"/>
+<ref id="mat-pifengshi" name="bsdf"/>
+</shape>
+<shape type="ply" id="elm__21" name="elm__21">
+<string name="filename" value="meshes/023_dai.ply"/>
+<ref id="mat-dai" name="bsdf"/>
+</shape>
+<shape type="ply" id="elm__23" name="elm__23">
+<string name="filename" value="meshes/024_yanzhao.ply"/>
+<ref id="mat-yanzhao" name="bsdf"/>
+</shape>
+<shape type="ply" id="elm__25" name="elm__25">
+<string name="filename" value="meshes/025_xie.ply"/>
+<ref id="mat-xie" name="bsdf"/>
+</shape>
+
 
 <!-- Volumes -->
 

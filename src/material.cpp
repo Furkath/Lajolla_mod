@@ -1,5 +1,6 @@
 #include "material.h"
 #include "intersection.h"
+#include "transform.h"
 
 inline Vector3 sample_cos_hemisphere(const Vector2 &rnd_param) {
     Real phi = c_TWOPI * rnd_param[0];
