@@ -61,9 +61,16 @@ Spectrum eval_op::operator()(const NprBSDF &bsdf) const {
 
         Spectrum toon = eval(bsdf.toon_color, toon_uv, vertex.uv_screen_size, texture_pool);
         Spectrum sphere = eval(bsdf.sphere_color, toon_uv, vertex.uv_screen_size, texture_pool);
+        Spectrum toonshadow = eval(bsdf.toonshadow_color, toon_uv, vertex.uv_screen_size, texture_pool);
+        Real shading_thresh = eval(bsdf.shading_threshold, vertex.uv, vertex.uv_screen_size, texture_pool);
+        Spectrum spechighlight = eval(bsdf.specularhighlight_color, toon_uv, vertex.uv_screen_size, texture_pool);
+        Real highlight_thresh = eval(bsdf.highlight_threshold, vertex.uv, vertex.uv_screen_size, texture_pool);
+        Spectrum rimlight = eval(bsdf.rimlight_color, toon_uv, vertex.uv_screen_size, texture_pool);
+        Real rimlight_thresh = eval(bsdf.rimlight_threshold, vertex.uv, vertex.uv_screen_size, texture_pool);
 
         NprDiffuse diffuse_lobe = {bsdf.diffuse_color, bsdf.diffuse_roughness, bsdf.subsurface,
-                                   toon, sphere, bsdf.doublesided};
+                                   toon, sphere, toonshadow, shading_thresh, spechighlight, highlight_thresh, 
+                                   rimlight, rimlight_thresh, bsdf.virtual_light, bsdf.doublesided};
         NprTintMetal metal_lobe = {bsdf.metallic_color, bsdf.metallic_roughness, bsdf.anisotropic,
                                       bsdf.specular, bsdf.specular_tint, bsdf.metallic, bsdf.eta,
                                       bsdf.doublesided};
@@ -110,7 +117,9 @@ Real pdf_sample_bsdf_op::operator()(const NprBSDF &bsdf) const {
         Real wo_sum = wo_diffuse + wo_metal;
 
         NprDiffuse diffuse_lobe = {bsdf.diffuse_color, bsdf.diffuse_roughness, bsdf.subsurface,
-                                   make_zero_spectrum(), make_zero_spectrum(), bsdf.doublesided};
+                                   make_zero_spectrum(), make_zero_spectrum(), make_zero_spectrum(), 
+                                   Real(-1.0), make_zero_spectrum(), Real(1.0), 
+                                   make_zero_spectrum(), Real(1.0), bsdf.virtual_light, bsdf.doublesided};
         NprTintMetal metal_lobe = {bsdf.metallic_color, bsdf.metallic_roughness, bsdf.anisotropic,
                                       bsdf.specular, bsdf.specular_tint, bsdf.metallic, bsdf.eta,
                                       bsdf.doublesided};
@@ -164,7 +173,9 @@ std::optional<BSDFSampleRecord>
 
         if (wo_diffuse > 0 && q < wo_diffuse) {
             NprDiffuse diffuse_lobe = {bsdf.diffuse_color, bsdf.diffuse_roughness, bsdf.subsurface,
-                                       make_zero_spectrum(), make_zero_spectrum(), bsdf.doublesided};
+                                       make_zero_spectrum(), make_zero_spectrum(), make_zero_spectrum(), 
+                                       Real(-1.0), make_zero_spectrum(), Real(1.0), 
+                                       make_zero_spectrum(), Real(1.0), bsdf.virtual_light, bsdf.doublesided};
             Real q_ = q / wo_diffuse;
             sample_bsdf_op sub_op = {dir_in, vertex, texture_pool, rnd_param_uv, q_, dir};
             return sub_op(diffuse_lobe);

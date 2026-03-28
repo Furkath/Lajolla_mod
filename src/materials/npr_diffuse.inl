@@ -14,8 +14,27 @@ Spectrum eval_op::operator()(const NprDiffuse &bsdf) const {
         return make_zero_spectrum();
     }
 
-    Spectrum base_color = bsdf.toon * eval(bsdf.base_color, vertex.uv, vertex.uv_screen_size, texture_pool)
-                        + bsdf.sphere;
+    Spectrum base_color_eval = eval(bsdf.base_color, vertex.uv, vertex.uv_screen_size, texture_pool);
+
+    Real theta = dot(normalize(bsdf.virtual_light), frame.n);
+    if (theta <= bsdf.shading_threshold) {
+        base_color_eval = base_color_eval * bsdf.toonshadow_color;
+    }
+
+    Vector3 reflected_in = 2.0 * dot(frame.n, dir_in) * frame.n - dir_in;
+    Real beta = dot(normalize(bsdf.virtual_light), reflected_in);
+    if (beta > bsdf.highlight_threshold) {
+        base_color_eval += bsdf.specularhighlight_color;
+    }
+
+    Real NdotV = fmax(dot(frame.n, dir_in), Real(0.0));
+    Real NdotL = fmax(theta, Real(0.0));
+    Real rim_facing = (1.0 - NdotV) * pow(NdotL, Real(0.1));
+    if (rim_facing > bsdf.rimlight_threshold) {
+        base_color_eval += bsdf.rimlight_color;
+    }
+
+    Spectrum base_color = bsdf.toon * base_color_eval + bsdf.sphere;
     Real roughness = eval(bsdf.roughness, vertex.uv, vertex.uv_screen_size, texture_pool);
     Real subsurface = eval(bsdf.subsurface, vertex.uv, vertex.uv_screen_size, texture_pool);
 

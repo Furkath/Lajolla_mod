@@ -2,7 +2,7 @@
 
 <!-- Defaults, these can be set via the command line: -Darg=value -->
 
-	<default name="spp" value="128"/>
+	<default name="spp" value="1024"/>
 	<default name="resx" value="2160"/>
 	<default name="resy" value="2160"/>
 
@@ -79,6 +79,13 @@
 		<!-- if no specify, use diffuse_color texture alpha channel; 
 		if no texture or texture no alpha, default to 1.0 --> 
 		<!-- <float name="Fac2" value="0.5"/>  --> 
+		<float name="shading_threshold" value="0.103"/>
+		<float name="highlight_threshold" value="0.99"/>
+		<rgb name="toonshadow_color" value="0.126, 0.065, 0.051"/>
+		<rgb name="specularhighlight_color" value="2.0, 2.0, 0.0"/>
+		<vector name="virtual_light" value="-2.7, 0.9, 1.5"/>
+		<float name="rimlight_threshold" value="0.6"/>
+		<rgb name="rimlight_color" value="1.0, 0.0, 0.0"/>
 	</bsdf>
 
 
@@ -96,6 +103,13 @@
 		<float name="Fac" value="0.02"/>
 		<float name="diffuse_roughness" value="0.0"/>
 		<float name="metallic_roughness" value="1.0"/>
+		<float name="shading_threshold" value="0.103"/>
+		<float name="highlight_threshold" value="0.99"/>
+		<rgb name="toonshadow_color" value="0.126, 0.065, 0.051"/>
+		<rgb name="specularhighlight_color" value="2.0, 2.0, 0.0"/>
+		<vector name="virtual_light" value="-2.7, 0.9, 1.5"/>
+		<float name="rimlight_threshold" value="0.6"/>
+		<rgb name="rimlight_color" value="1.0, 0.0, 0.0"/>
 	</bsdf>
 
 	<bsdf type="npr" id="mat-jiemei" name="mat-jiemei">
@@ -112,6 +126,13 @@
 		<float name="Fac" value="0.02"/>
 		<float name="diffuse_roughness" value="0.0"/>
 		<float name="metallic_roughness" value="1.0"/>
+		<float name="shading_threshold" value="0.103"/>
+		<float name="highlight_threshold" value="0.99"/>
+		<rgb name="toonshadow_color" value="0.126, 0.065, 0.051"/>
+		<rgb name="specularhighlight_color" value="2.0, 2.0, 0.0"/>
+		<vector name="virtual_light" value="-2.7, 0.9, 1.5"/>
+		<float name="rimlight_threshold" value="0.6"/>
+		<rgb name="rimlight_color" value="1.0, 0.0, 0.0"/>
 	</bsdf>
 
 	<bsdf type="npr" id="mat-baimu" name="mat-baimu">
@@ -124,6 +145,13 @@
 		<float name="Fac" value="0.02"/>
 		<float name="diffuse_roughness" value="0.0"/>
 		<float name="metallic_roughness" value="1.0"/>
+		<float name="shading_threshold" value="0.103"/>
+		<float name="highlight_threshold" value="0.99"/>
+		<rgb name="toonshadow_color" value="0.126, 0.065, 0.051"/>
+		<rgb name="specularhighlight_color" value="2.0, 2.0, 0.0"/>
+		<vector name="virtual_light" value="-2.7, 0.9, 1.5"/>
+		<float name="rimlight_threshold" value="0.6"/>
+		<rgb name="rimlight_color" value="1.0, 0.0, 0.0"/>
 	</bsdf>
 
 	<bsdf type="npr" id="mat-koushe" name="mat-koushe">
@@ -140,6 +168,13 @@
 		<float name="Fac" value="0.02"/>
 		<float name="diffuse_roughness" value="0.0"/>
 		<float name="metallic_roughness" value="1.0"/>
+		<float name="shading_threshold" value="0.103"/>
+		<float name="highlight_threshold" value="0.99"/>
+		<rgb name="toonshadow_color" value="0.126, 0.065, 0.051"/>
+		<rgb name="specularhighlight_color" value="2.0, 2.0, 0.0"/>
+		<vector name="virtual_light" value="-2.7, 0.9, 1.5"/>
+		<float name="rimlight_threshold" value="0.6"/>
+		<rgb name="rimlight_color" value="1.0, 0.0, 0.0"/>
 	</bsdf>
 
 	<bsdf type="npr" id="mat-chi" name="mat-chi">
@@ -156,6 +191,13 @@
 		<float name="Fac" value="0.02"/>
 		<float name="diffuse_roughness" value="0.0"/>
 		<float name="metallic_roughness" value="1.0"/>
+		<float name="shading_threshold" value="0.103"/>
+		<float name="highlight_threshold" value="0.99"/>
+		<rgb name="toonshadow_color" value="0.126, 0.065, 0.051"/>
+		<rgb name="specularhighlight_color" value="2.0, 2.0, 0.0"/>
+		<vector name="virtual_light" value="-2.7, 0.9, 1.5"/>
+		<float name="rimlight_threshold" value="0.6"/>
+		<rgb name="rimlight_color" value="1.0, 0.0, 0.0"/>
 	</bsdf>
 
 	<bsdf type="npr" id="mat-mu" name="mat-mu">
@@ -168,6 +210,13 @@
 		<float name="Fac" value="0.02"/>
 		<float name="diffuse_roughness" value="0.0"/>
 		<float name="metallic_roughness" value="1.0"/>
+		<float name="shading_threshold" value="0.103"/>
+		<float name="highlight_threshold" value="0.99"/>
+		<rgb name="toonshadow_color" value="0.126, 0.065, 0.051"/>
+		<rgb name="specularhighlight_color" value="2.0, 2.0, 0.0"/>
+		<vector name="virtual_light" value="-2.7, 0.9, 1.5"/>
+		<float name="rimlight_threshold" value="0.6"/>
+		<rgb name="rimlight_color" value="1.0, 0.0, 0.0"/>
 	</bsdf>
 
 
@@ -181,6 +230,13 @@
 		<float name="Fac" value="0.02"/>
 		<float name="diffuse_roughness" value="0.0"/>
 		<float name="metallic_roughness" value="1.0"/>
+		<float name="shading_threshold" value="0.103"/>
+		<float name="highlight_threshold" value="0.99"/>
+		<rgb name="toonshadow_color" value="0.126, 0.065, 0.051"/>
+		<rgb name="specularhighlight_color" value="2.0, 2.0, 0.0"/>
+		<vector name="virtual_light" value="-2.7, 0.9, 1.5"/>
+		<float name="rimlight_threshold" value="0.6"/>
+		<rgb name="rimlight_color" value="1.0, 0.0, 0.0"/>
 	</bsdf>
 
 	<bsdf type="npr" id="mat-bing" name="mat-bing">
@@ -201,6 +257,14 @@
 		<float name="Fac" value="0.02"/>
 		<float name="diffuse_roughness" value="0.0"/>
 		<float name="metallic_roughness" value="1.0"/>
+
+		<float name="shading_threshold" value="0.103"/>
+		<float name="highlight_threshold" value="0.99"/>
+		<rgb name="toonshadow_color" value="0.126, 0.065, 0.051"/>
+		<rgb name="specularhighlight_color" value="2.0, 2.0, 0.0"/>
+		<vector name="virtual_light" value="-2.7, 0.9, 1.5"/>
+		<float name="rimlight_threshold" value="0.6"/>
+		<rgb name="rimlight_color" value="1.0, 0.0, 0.0"/>
 	</bsdf>
 
 	<bsdf type="npr" id="mat-bingjia" name="mat-bingjia">
@@ -221,6 +285,13 @@
 		<float name="Fac" value="0.02"/>
 		<float name="diffuse_roughness" value="0.0"/>
 		<float name="metallic_roughness" value="1.0"/>
+		<float name="shading_threshold" value="0.103"/>
+		<float name="highlight_threshold" value="0.99"/>
+		<rgb name="toonshadow_color" value="0.126, 0.065, 0.051"/>
+		<rgb name="specularhighlight_color" value="2.0, 2.0, 0.0"/>
+		<vector name="virtual_light" value="-2.7, 0.9, 1.5"/>
+		<float name="rimlight_threshold" value="0.6"/>
+		<rgb name="rimlight_color" value="1.0, 0.0, 0.0"/>
 	</bsdf>
 
 	<bsdf type="npr" id="mat-bingshi" name="mat-bingshi">
@@ -237,6 +308,13 @@
 		<float name="Fac" value="0.02"/>
 		<float name="diffuse_roughness" value="0.0"/>
 		<float name="metallic_roughness" value="1.0"/>
+		<float name="shading_threshold" value="0.103"/>
+		<float name="highlight_threshold" value="0.99"/>
+		<rgb name="toonshadow_color" value="0.126, 0.065, 0.051"/>
+		<rgb name="specularhighlight_color" value="2.0, 2.0, 0.0"/>
+		<vector name="virtual_light" value="-2.7, 0.9, 1.5"/>
+		<float name="rimlight_threshold" value="0.6"/>
+		<rgb name="rimlight_color" value="1.0, 0.0, 0.0"/>
 	</bsdf>
 
 	<bsdf type="npr" id="mat-toushi" name="mat-toushi">
@@ -253,6 +331,13 @@
 		<float name="Fac" value="0.02"/>
 		<float name="diffuse_roughness" value="0.0"/>
 		<float name="metallic_roughness" value="1.0"/>
+		<float name="shading_threshold" value="0.103"/>
+		<float name="highlight_threshold" value="0.99"/>
+		<rgb name="toonshadow_color" value="0.126, 0.065, 0.051"/>
+		<rgb name="specularhighlight_color" value="2.0, 2.0, 0.0"/>
+		<vector name="virtual_light" value="-2.7, 0.9, 1.5"/>
+		<float name="rimlight_threshold" value="0.6"/>
+		<rgb name="rimlight_color" value="1.0, 0.0, 0.0"/>
 	</bsdf>
 
 
@@ -271,6 +356,13 @@
 	<float name="Fac" value="0.02"/>
 	<float name="diffuse_roughness" value="0.0"/>
 	<float name="metallic_roughness" value="1.0"/>
+	<float name="shading_threshold" value="0.103"/>
+	<float name="highlight_threshold" value="0.99"/>
+	<rgb name="toonshadow_color" value="0.126, 0.065, 0.051"/>
+	<rgb name="specularhighlight_color" value="2.0, 2.0, 0.0"/>
+	<vector name="virtual_light" value="-2.7, 0.9, 1.5"/>
+	<float name="rimlight_threshold" value="0.6"/>
+	<rgb name="rimlight_color" value="1.0, 0.0, 0.0"/>
 </bsdf>
 
 <bsdf type="npr" id="mat-xiushi" name="mat-xiushi">
@@ -285,6 +377,13 @@
 	<float name="Fac" value="0.02"/>
 	<float name="diffuse_roughness" value="0.0"/>
 	<float name="metallic_roughness" value="1.0"/>
+	<float name="shading_threshold" value="0.103"/>
+	<float name="highlight_threshold" value="0.99"/>
+	<rgb name="toonshadow_color" value="0.126, 0.065, 0.051"/>
+	<rgb name="specularhighlight_color" value="2.0, 2.0, 0.0"/>
+	<vector name="virtual_light" value="-2.7, 0.9, 1.5"/>
+	<float name="rimlight_threshold" value="0.6"/>
+	<rgb name="rimlight_color" value="1.0, 0.0, 0.0"/>
 </bsdf>
 
 <bsdf type="npr" id="mat-qun" name="mat-qun">
@@ -301,6 +400,13 @@
 	<float name="metallic_roughness" value="1.0"/>
 
 	<boolean name="doublesided" value="true"/>
+	<float name="shading_threshold" value="0.103"/>
+	<float name="highlight_threshold" value="0.99"/>
+	<rgb name="toonshadow_color" value="0.126, 0.065, 0.051"/>
+	<rgb name="specularhighlight_color" value="2.0, 2.0, 0.0"/>
+	<vector name="virtual_light" value="-2.7, 0.9, 1.5"/>
+	<float name="rimlight_threshold" value="0.6"/>
+	<rgb name="rimlight_color" value="1.0, 0.0, 0.0"/>
 </bsdf>
 
 <bsdf type="npr" id="mat-ji2" name="mat-ji2">
@@ -315,6 +421,13 @@
 	<float name="Fac" value="0.02"/>
 	<float name="diffuse_roughness" value="0.0"/>
 	<float name="metallic_roughness" value="1.0"/>
+	<float name="shading_threshold" value="0.103"/>
+	<float name="highlight_threshold" value="0.99"/>
+	<rgb name="toonshadow_color" value="0.126, 0.065, 0.051"/>
+	<rgb name="specularhighlight_color" value="2.0, 2.0, 0.0"/>
+	<vector name="virtual_light" value="-2.7, 0.9, 1.5"/>
+	<float name="rimlight_threshold" value="0.6"/>
+	<rgb name="rimlight_color" value="1.0, 0.0, 0.0"/>
 </bsdf>
 
 <bsdf type="npr" id="mat-xiu" name="mat-xiu">
@@ -329,6 +442,13 @@
 	<float name="Fac" value="0.02"/>
 	<float name="diffuse_roughness" value="0.0"/>
 	<float name="metallic_roughness" value="1.0"/>
+	<float name="shading_threshold" value="0.103"/>
+	<float name="highlight_threshold" value="0.99"/>
+	<rgb name="toonshadow_color" value="0.126, 0.065, 0.051"/>
+	<rgb name="specularhighlight_color" value="2.0, 2.0, 0.0"/>
+	<vector name="virtual_light" value="-2.7, 0.9, 1.5"/>
+	<float name="rimlight_threshold" value="0.6"/>
+	<rgb name="rimlight_color" value="1.0, 0.0, 0.0"/>
 </bsdf>
 
 <bsdf type="npr" id="mat-pijian" name="mat-pijian">
@@ -343,6 +463,13 @@
 	<float name="Fac" value="0.02"/>
 	<float name="diffuse_roughness" value="0.0"/>
 	<float name="metallic_roughness" value="1.0"/>
+	<float name="shading_threshold" value="0.103"/>
+	<float name="highlight_threshold" value="0.99"/>
+	<rgb name="toonshadow_color" value="0.126, 0.065, 0.051"/>
+	<rgb name="specularhighlight_color" value="2.0, 2.0, 0.0"/>
+	<vector name="virtual_light" value="-2.7, 0.9, 1.5"/>
+	<float name="rimlight_threshold" value="0.6"/>
+	<rgb name="rimlight_color" value="1.0, 0.0, 0.0"/>
 </bsdf>
 
 <bsdf type="npr" id="mat-pijianshi" name="mat-pijianshi">
@@ -357,6 +484,13 @@
 	<float name="Fac" value="0.02"/>
 	<float name="diffuse_roughness" value="0.0"/>
 	<float name="metallic_roughness" value="1.0"/>
+	<float name="shading_threshold" value="0.103"/>
+	<float name="highlight_threshold" value="0.99"/>
+	<rgb name="toonshadow_color" value="0.126, 0.065, 0.051"/>
+	<rgb name="specularhighlight_color" value="2.0, 2.0, 0.0"/>
+	<vector name="virtual_light" value="-2.7, 0.9, 1.5"/>
+	<float name="rimlight_threshold" value="0.6"/>
+	<rgb name="rimlight_color" value="1.0, 0.0, 0.0"/>
 </bsdf>
 
 <bsdf type="npr" id="mat-pifeng" name="mat-pifeng">
@@ -373,6 +507,13 @@
 	<float name="metallic_roughness" value="1.0"/>
 
 	<boolean name="doublesided" value="true"/>
+	<float name="shading_threshold" value="0.103"/>
+	<float name="highlight_threshold" value="0.99"/>
+	<rgb name="toonshadow_color" value="0.126, 0.065, 0.051"/>
+	<rgb name="specularhighlight_color" value="2.0, 2.0, 0.0"/>
+	<vector name="virtual_light" value="-2.7, 0.9, 1.5"/>
+	<float name="rimlight_threshold" value="0.6"/>
+	<rgb name="rimlight_color" value="1.0, 0.0, 0.0"/>
 </bsdf>
 
 <bsdf type="npr" id="mat-pifengshi" name="mat-pifengshi">
@@ -387,6 +528,13 @@
 	<float name="Fac" value="0.02"/>
 	<float name="diffuse_roughness" value="0.0"/>
 	<float name="metallic_roughness" value="1.0"/>
+	<float name="shading_threshold" value="0.103"/>
+	<float name="highlight_threshold" value="0.99"/>
+	<rgb name="toonshadow_color" value="0.126, 0.065, 0.051"/>
+	<rgb name="specularhighlight_color" value="2.0, 2.0, 0.0"/>
+	<vector name="virtual_light" value="-2.7, 0.9, 1.5"/>
+	<float name="rimlight_threshold" value="0.6"/>
+	<rgb name="rimlight_color" value="1.0, 0.0, 0.0"/>
 </bsdf>
 
 <bsdf type="npr" id="mat-dai" name="mat-dai">
@@ -403,6 +551,13 @@
 	<float name="metallic_roughness" value="1.0"/>
 
 	<boolean name="doublesided" value="true"/>
+	<float name="shading_threshold" value="0.103"/>
+	<float name="highlight_threshold" value="0.99"/>
+	<rgb name="toonshadow_color" value="0.126, 0.065, 0.051"/>
+	<rgb name="specularhighlight_color" value="2.0, 2.0, 0.0"/>
+	<vector name="virtual_light" value="-2.7, 0.9, 1.5"/>
+	<float name="rimlight_threshold" value="0.6"/>
+	<rgb name="rimlight_color" value="1.0, 0.0, 0.0"/>
 </bsdf>
 
 <bsdf type="npr" id="mat-yanzhao" name="mat-yanzhao">
@@ -417,6 +572,13 @@
 	<float name="Fac" value="0.02"/>
 	<float name="diffuse_roughness" value="0.0"/>
 	<float name="metallic_roughness" value="1.0"/>
+	<float name="shading_threshold" value="0.103"/>
+	<float name="highlight_threshold" value="0.99"/>
+	<rgb name="toonshadow_color" value="0.126, 0.065, 0.051"/>
+	<rgb name="specularhighlight_color" value="2.0, 2.0, 0.0"/>
+	<vector name="virtual_light" value="-2.7, 0.9, 1.5"/>
+	<float name="rimlight_threshold" value="0.6"/>
+	<rgb name="rimlight_color" value="1.0, 0.0, 0.0"/>
 </bsdf>
 
 <bsdf type="npr" id="mat-xie" name="mat-xie">
@@ -431,6 +593,13 @@
 	<float name="Fac" value="0.02"/>
 	<float name="diffuse_roughness" value="0.0"/>
 	<float name="metallic_roughness" value="1.0"/>
+	<float name="shading_threshold" value="0.103"/>
+	<float name="highlight_threshold" value="0.99"/>
+	<rgb name="toonshadow_color" value="0.126, 0.065, 0.051"/>
+	<rgb name="specularhighlight_color" value="2.0, 2.0, 0.0"/>
+	<vector name="virtual_light" value="-2.7, 0.9, 1.5"/>
+	<float name="rimlight_threshold" value="0.6"/>
+	<rgb name="rimlight_color" value="1.0, 0.0, 0.0"/>
 </bsdf>
 
 <bsdf type="npr" id="mat-ti" name="mat-ti">
@@ -445,7 +614,13 @@
 	<float name="Fac" value="0.02"/>
 	<float name="diffuse_roughness" value="0.0"/>
 	<float name="metallic_roughness" value="1.0"/>
-
+	<float name="shading_threshold" value="0.103"/>
+	<float name="highlight_threshold" value="0.99"/>
+	<rgb name="toonshadow_color" value="0.126, 0.065, 0.051"/>
+	<rgb name="specularhighlight_color" value="2.0, 2.0, 0.0"/>
+	<vector name="virtual_light" value="-2.7, 0.9, 1.5"/>
+	<float name="rimlight_threshold" value="0.6"/>
+	<rgb name="rimlight_color" value="1.0, 0.0, 0.0"/>
 </bsdf>
 
 
@@ -462,6 +637,13 @@
 	<float name="diffuse_roughness" value="0.0"/>
 	<float name="metallic_roughness" value="1.0"/>
 
+	<float name="shading_threshold" value="0.103"/>
+	<float name="highlight_threshold" value="0.99"/>
+	<rgb name="toonshadow_color" value="0.126, 0.065, 0.051"/>
+	<rgb name="specularhighlight_color" value="2.0, 2.0, 0.0"/>
+	<vector name="virtual_light" value="-2.7, 0.9, 1.5"/>
+	<float name="rimlight_threshold" value="0.6"/>
+	<rgb name="rimlight_color" value="1.0, 0.0, 0.0"/>
 </bsdf>
 
 
@@ -494,7 +676,7 @@
 	
 	<emitter type="envmap">
     	<string name="filename" value="textures/courtyard.hdr"/>
-    	<float name="scale" value="1.0"/>
+    	<float name="scale" value="0.9"/>
     	<transform name="to_world">
         	<rotate y="1" angle="90"/>
     	</transform>

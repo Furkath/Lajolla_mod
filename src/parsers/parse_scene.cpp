@@ -1172,6 +1172,13 @@ std::tuple<std::string /* ID */, Material> parse_bsdf(
         Texture<Spectrum> metallic_color = make_constant_spectrum_texture(fromRGB(Vector3{0.5, 0.5, 0.5}));
         Texture<Spectrum> toon_color = make_constant_spectrum_texture(fromRGB(Vector3{1, 1, 1}));
         Texture<Spectrum> sphere_color = make_constant_spectrum_texture(fromRGB(Vector3{0, 0, 0}));
+        Texture<Spectrum> toonshadow_color = make_constant_spectrum_texture(fromRGB(Vector3{1, 1, 1}));
+        Texture<Real> shading_threshold = make_constant_float_texture(Real(-1.0));
+        Texture<Spectrum> specularhighlight_color = make_constant_spectrum_texture(fromRGB(Vector3{0, 0, 0}));
+        Texture<Real> highlight_threshold = make_constant_float_texture(Real(1.0));
+        Texture<Spectrum> rimlight_color = make_constant_spectrum_texture(fromRGB(Vector3{0, 0, 0}));
+        Texture<Real> rimlight_threshold = make_constant_float_texture(Real(1.0));
+        Vector3 virtual_light = Vector3{0, 1, 0};
         Texture<Real> fac = make_constant_float_texture(Real(0));
         Texture<Real> fac2 = make_constant_float_texture(Real(1)); // opacity: 1 = opaque
         Texture<Real> metallic = make_constant_float_texture(Real(1.0));
@@ -1228,6 +1235,26 @@ std::tuple<std::string /* ID */, Material> parse_bsdf(
                 sphere_color = parse_spectrum_texture(
                     child, texture_map, texture_pool, default_map);
                 extract_bitmap_info(child, sphere_bmp);
+            } else if (name == "toonshadow_color" || name == "toonshadowColor") {
+                toonshadow_color = parse_spectrum_texture(
+                    child, texture_map, texture_pool, default_map);
+            } else if (name == "shading_threshold" || name == "shadingThreshold") {
+                shading_threshold = parse_float_texture(
+                    child, texture_map, texture_pool, default_map);
+            } else if (name == "specularhighlight_color" || name == "specularhighlightColor") {
+                specularhighlight_color = parse_spectrum_texture(
+                    child, texture_map, texture_pool, default_map);
+            } else if (name == "highlight_threshold" || name == "highlightThreshold") {
+                highlight_threshold = parse_float_texture(
+                    child, texture_map, texture_pool, default_map);
+            } else if (name == "rimlight_color" || name == "rimlightColor") {
+                rimlight_color = parse_spectrum_texture(
+                    child, texture_map, texture_pool, default_map);
+            } else if (name == "rimlight_threshold" || name == "rimlightThreshold") {
+                rimlight_threshold = parse_float_texture(
+                    child, texture_map, texture_pool, default_map);
+            } else if (name == "virtual_light" || name == "virtualLight") {
+                virtual_light = parse_vector3(child.attribute("value").value(), default_map);
             } else if (name == "Fac" || name == "fac") {
                 fac = parse_float_texture(
                     child, texture_map, texture_pool, default_map);
@@ -1296,6 +1323,8 @@ std::tuple<std::string /* ID */, Material> parse_bsdf(
         }
         //}
         return std::make_tuple(id, NprBSDF{diffuse_color, metallic_color, toon_color, sphere_color,
+                                           toonshadow_color, shading_threshold, specularhighlight_color, highlight_threshold, 
+                                           rimlight_color, rimlight_threshold, virtual_light,
                                            toon_alpha, sphere_alpha,
                                            fac, fac2, metallic,
                                            diffuse_roughness, metallic_roughness,

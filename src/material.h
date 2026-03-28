@@ -103,6 +103,13 @@ struct NprDiffuse {
     Texture<Real> subsurface;
     Spectrum toon;        // pre-evaluated toon matcap color
     Spectrum sphere;      // pre-evaluated sphere matcap color
+    Spectrum toonshadow_color;
+    Real shading_threshold;
+    Spectrum specularhighlight_color;
+    Real highlight_threshold;
+    Spectrum rimlight_color;
+    Real rimlight_threshold;
+    Vector3 virtual_light;
     bool doublesided;     // if true, render color even on backface
 };
 
@@ -127,6 +134,13 @@ struct NprBSDF {
     Texture<Spectrum> metallic_color;
     Texture<Spectrum> toon_color;   // matcap texture, looked up with view-space normal UV; multiplied with result
     Texture<Spectrum> sphere_color; // second matcap texture, looked up same way; multiplied with toon
+    Texture<Spectrum> toonshadow_color;
+    Texture<Real> shading_threshold;
+    Texture<Spectrum> specularhighlight_color;
+    Texture<Real> highlight_threshold;
+    Texture<Spectrum> rimlight_color;
+    Texture<Real> rimlight_threshold;
+    Vector3 virtual_light;
     Texture<Real> toon_alpha;       // alpha from toon matcap; multiplied into opacity (matcap UV)
     Texture<Real> sphere_alpha;     // alpha from sphere matcap; multiplied into opacity (matcap UV)
     Texture<Real> Fac;   // blend factor: 0 = fully diffuse, 1 = fully metal
