@@ -1,6 +1,6 @@
 
 # lajolla
-UCSD CSE 272 renderer
+Personal modified version based on public Lajolla renderer
 
 # Build
 All the dependencies are included. Use CMake to build.
