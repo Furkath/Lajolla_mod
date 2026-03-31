@@ -47,7 +47,64 @@ Many scenes in the scenes folder are directly downloaded from [http://www.mitsub
 
 ## New Feature: Soft Shadow terminator (for low-poly models)
 
-## New Feature: Character Rigging and Skinning
+## New Feature: Character Rigging and SkVinning
+
+Currently the project adopts LBS for character pose setup, from bone construction to rigging to the skinned mesh:
+
+<table align="center">
+<tr><th align="center">Bone Setup</th><th align="center">Rigging</th><th align="center">Skinning Result</th></tr>
+<tr>
+<td align="center"><img src="project/images/testbone.jpg" height="250"></td>
+<td align="center"><img src="project/images/testrig.jpg" height="250"></td>
+<td align="center"><img src="project/images/testskin.jpg" height="250"></td>
+</tr>
+</table>
+
+To render stylized characters in the path tracer, the geometry must first be posed from a rest pose into an arbitrary animation frame. This is the job of **skeletal skinning**: each mesh vertex is bound to one or more bones, and a skinning algorithm decides how those bone transformations combine to produce the final vertex position. The choice of skinning method has a direct impact on visual quality around joints — artifacts such as volume collapse ("candy-wrapper"), unnatural bulging, or rigid-looking bends are all consequences of how the underlying math blends transformations. Below we survey and compare four widely-used skinning strategies in increasing order of sophistication.
+
+<p align="center">
+<img src="project/images/diagramSkinning.png" width="574">
+</p>
+
+### Linear Blend Skinning (LBS)
+
+Linear Blend Skinning is the industry baseline due to its simplicity and speed. Each vertex $\mathbf{v}$ in the rest pose is transformed by a weighted average of bone transformation matrices:
+
+$$\mathbf{v}' = \sum_{i=1}^{n} w_i \, M_i \, \mathbf{v}$$
+
+where $M_i$ is the world-space transformation matrix of bone $i$ and $w_i$ is the corresponding skinning weight with $\sum w_i = 1$. Because the blending operates directly on matrix entries (i.e. on Cartesian coordinates), the interpolated path between two bone poses is a straight line through space. This is fast but geometrically problematic: when a joint bends significantly, the straight-line interpolation causes vertices near the joint to collapse inward, producing the well-known **candy-wrapper artifact**. The volume around the joint shrinks visibly, especially on forearms under twist and tightly bent knees. Despite this, LBS remains the default in most real-time engines because of its trivial GPU implementation.
+
+### Dual Quaternion Skinning (DQS)
+
+Dual Quaternion Skinning addresses the volume-collapse problem of LBS by representing each bone transformation as a **dual quaternion** $\hat{q} = q_0 + \varepsilon \, q_\varepsilon$, encoding both rotation ($q_0$) and translation ($q_\varepsilon$) in a unified 8-component form. The blended transformation is computed by averaging and normalizing in dual quaternion space:
+
+$$\hat{q}_{\text{blend}} = \frac{\sum_{i=1}^{n} w_i \, \hat{q}_i}{\left\| \sum_{i=1}^{n} w_i \, \hat{q}_i \right\|}$$
+
+The vertex is then transformed by converting $\hat{q}_{\text{blend}}$ back to a rigid-body transformation. Because quaternion interpolation traces a **spherical arc** (on the 4D unit sphere) rather than a straight line, the blended transformation remains a proper rigid motion and **preserves volume** around bent joints. However, this rigidity comes with a trade-off: at sharp bend angles, the spherical interpolation can overshoot, causing vertices on the inside of the bend to **bulge outward** unnaturally. DQS is slightly more expensive than LBS but the cost is modest and well within real-time budgets.
+
+### Bulge-Free Dual Quaternion Skinning (Bulge-Free DQS)
+
+Bulge-Free DQS refines standard DQS by applying a **scaling correction** on top of the rigid blend. After computing $\hat{q}_{\text{blend}}$ as above, the method constructs a corrective scale/shear component $S_{\text{corr}}$ that gently compresses the geometry in the direction of the bulge:
+
+$$\mathbf{v}' = T(\hat{q}_{\text{blend}}) \cdot S_{\text{corr}} \cdot \mathbf{v}$$
+
+where $T(\hat{q}_{\text{blend}})$ is the rigid transformation from the normalized dual quaternion, and $S_{\text{corr}}$ is derived from the difference between the DQS result and a reference pose. In effect, this produces **damped DQS**: it intentionally allows a small, controlled amount of LBS-style "collapse" to counteract the DQS bulge, finding a middle ground between the two extremes. The result looks natural at moderate bend angles and avoids the most objectionable artifacts of both pure LBS and pure DQS.
+
+### Optimized Center of Rotation Skinning (Disney OCoR)
+
+Optimized Center of Rotation (OCoR) skinning, introduced by researchers at Disney, takes a fundamentally different geometric approach. Instead of blending transformations, OCoR computes a **unique pivot point** $\mathbf{c}_j$ for each vertex $j$ based on the skinning weights and bone rest positions:
+
+$$\mathbf{c}_j = \frac{\sum_{i=1}^{n} \sum_{k=1}^{n} w_{j,i} \, w_{j,k} \left( \frac{\mathbf{p}_i + \mathbf{p}_k}{2} \right)}{\sum_{i=1}^{n} \sum_{k=1}^{n} w_{j,i} \, w_{j,k}}$$
+
+where $\mathbf{p}_i$ is the rest-pose position of bone $i$. This pivot is the weighted center of all pairwise midpoints of the influencing bones. The vertex is then rotated around this per-vertex pivot using a linear blend of rotational components:
+
+$$\mathbf{v}_j' = \left( \sum_{i=1}^{n} w_{j,i} \, R_i \right) (\mathbf{v}_j - \mathbf{c}_j) + \sum_{i=1}^{n} w_{j,i} \, (R_i \, \mathbf{c}_j + \mathbf{t}_i)$$
+
+The result is **anatomically plausible** deformation: because each vertex rotates around its own optimized center rather than a shared joint, the straight-line interpolation of LBS is redirected to follow a curved path approximating the true arc of rotation. OCoR achieves this at essentially the same runtime cost as LBS (the per-vertex pivots are precomputed once during rigging), naturally avoiding both the candy-wrapper collapse and the DQS bulge.
+
+### Comparison
+
+To summarize, **LBS** averages coordinates linearly and is the fastest, but its straight-line interpolation path causes the candy-wrapper collapse at bent joints. **DQS** averages transformations spherically, preserving volume via a proper arc on the quaternion sphere, yet this rigidity introduces bulging at sharp bends. **Bulge-Free DQS** augments DQS with a corrective scale factor, intentionally allowing a small amount of collapse to suppress the bulge — a damped middle ground. **Disney OCoR** sidesteps the blending problem entirely by computing a unique rotation pivot per vertex, so even though it uses LBS-speed linear math, the displaced center of rotation makes the straight-line path approximate a curve, yielding anatomically plausible deformation without either collapse or bulge. In this project, the skinning step is performed as a pre-process before feeding the posed mesh to the path tracer, so the choice of algorithm directly determines the quality of the input geometry that Lajolla ultimately renders.
 
 ## New Feature: Fuse NPR in BPR path tracing pipeline
 ```
