@@ -173,7 +173,7 @@ For the outline, I use a very simple trick, dilating the object and useing backf
 
 ### 4.1 PBR Scene Without Character
 
-I first built a PBR stage in Lajolla (this takes so many time actually :), next time I might come with a stronger script for format conversion but the good thing now is it is all using disney principled BSDF. Then I tried to put the character in the scene, but it turns out the lighting is not the same for NPR BSDF, and current state only includes the toon and sphere matcap, a combined test of cosine quantization looks too deem right now. 
+I first built a PBR stage in Lajolla (this takes so many time actually :), next time I might come with a stronger script for format conversion but the good thing now is it is all using disney principled BSDF. Then I tried to put the character in the scene, but it turns out the lighting is not the same for NPR BSDF, and current state only includes the toon and sphere matcap, a combined test of cosine quantization can look dim right now. 
 
 **All scenes rendered just by Lajolla renderer!**
 <table align="center">
@@ -184,9 +184,9 @@ I first built a PBR stage in Lajolla (this takes so many time actually :), next 
 </tr>
 </table>
 
-Because the shader is now not disney principled BSDF, the renderign style looks some different. I will continue working on this to include above test scene effect in hilight and rim lighting. 
-A code linke keep tracks of my update: https://github.com/Furkath/Lajolla_mod.
-PS: processing the scene and rigging the character takes so much time, I will try to make a script to automate this process in the future.
+Because the shader is now not disney principled BSDF, the renderign style looks some different. Continue work on this will include above test scene effect in hilight and rim lighting. 
+<!--A code linke keep tracks of my update: https://github.com/Furkath/Lajolla_mod.-->
+PS: processing the scene and rigging the character takes so much time, I will try to make a script to automate this process later.
 
 ---
 
