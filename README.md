@@ -292,10 +292,10 @@ First built a PBR stage in Lajolla (this takes so many time actually :)), next t
 
 **All scenes rendered just by Lajolla renderer!**
 <table align="center">
-<tr><th align="center">PBR Scene (no character)</th><th align="center">Unified PBR + toon.sphere matcap</th></tr>
+<tr><th align="center">PBR Scene (principled BSDF / unified shader)</th><th align="center">Unified PBR + toon.sphere matcap</th></tr>
 <tr>
-<td align="center"><img src="project/images/noCharac.png" height="250"></td>
-<td align="center"><img src="project/images/unify.png" height="250"></td>
+<td align="center"><img src="project/images/compare.png" height="280"></td>
+<td align="center"><img src="project/images/unifiedSceneCharacter.jpg" height="280"></td>
 </tr>
 </table>
 
