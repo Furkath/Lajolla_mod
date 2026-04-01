@@ -83,7 +83,7 @@
 		<float name="highlight_threshold" value="0.99"/>
 		<rgb name="toonshadow_color" value="0.126, 0.065, 0.051"/>
 		<rgb name="specularhighlight_color" value="2.0, 2.0, 0.0"/>
-		<vector name="virtual_light" value="-2.7, 0.9, 1.5"/>
+		<vector name="virtual_light" value="-2.5, 0.9, 2.2"/>
 		<float name="rimlight_threshold" value="0.6"/>
 		<rgb name="rimlight_color" value="1.0, 0.0, 0.0"/>
 	</bsdf>
@@ -262,7 +262,7 @@
 		<float name="highlight_threshold" value="0.99"/>
 		<rgb name="toonshadow_color" value="0.126, 0.065, 0.051"/>
 		<rgb name="specularhighlight_color" value="2.0, 2.0, 0.0"/>
-		<vector name="virtual_light" value="-2.7, 0.9, 1.5"/>
+		<vector name="virtual_light" value="-2.5, 0.2, 1.2"/>
 		<float name="rimlight_threshold" value="0.6"/>
 		<rgb name="rimlight_color" value="1.0, 0.0, 0.0"/>
 	</bsdf>
@@ -404,7 +404,7 @@
 	<float name="highlight_threshold" value="0.99"/>
 	<rgb name="toonshadow_color" value="0.126, 0.065, 0.051"/>
 	<rgb name="specularhighlight_color" value="2.0, 2.0, 0.0"/>
-	<vector name="virtual_light" value="-2.7, 0.9, 1.5"/>
+	<vector name="virtual_light" value="-2.5, 0.9, 2.2"/>
 	<float name="rimlight_threshold" value="0.6"/>
 	<rgb name="rimlight_color" value="1.0, 0.0, 0.0"/>
 </bsdf>
@@ -446,7 +446,7 @@
 	<float name="highlight_threshold" value="0.99"/>
 	<rgb name="toonshadow_color" value="0.126, 0.065, 0.051"/>
 	<rgb name="specularhighlight_color" value="2.0, 2.0, 0.0"/>
-	<vector name="virtual_light" value="-2.7, 0.9, 1.5"/>
+	<vector name="virtual_light" value="-2.6, 0.9, 1.5"/>
 	<float name="rimlight_threshold" value="0.6"/>
 	<rgb name="rimlight_color" value="1.0, 0.0, 0.0"/>
 </bsdf>
